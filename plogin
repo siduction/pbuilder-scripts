@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# plogin
+# (c) 2011 Alf Gaida <info@g-com.eu>
+# 
+export OLDGNUPGHOME=$GNUPGHOME
+
+export ARCH="amd64"
+export debian_chroot="pbuild-amd64 $$"
+sudo -E pbuilder --login $@
+
+export GNUPGHOME=$OLDGNUPGHOME

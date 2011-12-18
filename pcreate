@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# pcreate 
+# (c) 2011 Alf Gaida <info@g-com.eu>
+# 
+export OLDGNUPGHOME=$GNUPGHOME
+
+export ARCH="amd64"
+sudo -E pbuilder --create $@
+
+export GNUPGHOME=$OLDGNUPGHOME

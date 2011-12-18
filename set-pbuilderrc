@@ -1,0 +1,1 @@
+ln -s /usr/share/pbuilder-scripts/pbuilderrc /etc/pbuilderrc
