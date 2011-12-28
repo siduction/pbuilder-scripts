@@ -3,7 +3,7 @@
 # packs
 # (c) 2011 Alf Gaida <info@g-com.eu>
 # 
-export OLDGNUPGHOME=$GNUPGHOME
+export OLDGNUPGHOME=${GNUPGHOME}
 
 export ARCH="amd64"
 
@@ -11,7 +11,7 @@ if [ -f ~/.pbuilderrc ]; then
     . ~/.pbuilderrc
 fi
 
-export GNUPGHOME=$OLDGNUPGHOME
+export GNUPGHOME=${OLDGNUPGHOME}
 
 cat ~/.bashrc > /tmp/packs-script~
 echo "cd ${BUILDRESULT}" >> /tmp/packs-script~

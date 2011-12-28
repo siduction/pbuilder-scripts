@@ -4,7 +4,7 @@
 # (c) 2011 Alf Gaida <info@g-com.eu>
 # 
 export OLDHOME=${HOME}
-export OLDGNUPGHOME=$GNUPGHOME
+export OLDGNUPGHOME=${GNUPGHOME}
 
 export HOME="/root"
 export GNUPGHOME="/root/.gnupg"
@@ -12,9 +12,9 @@ export AUTO_DEBSIGN=yes
 export DEBSIGN_PROGRAM=gpg
 export DEBSIGN_KEYID=9C6E4004
 export DEBSIGN_ALWAYS_RESIGN=yes
-export ARCH=amd64
-sudo -E pbuilder --build $@ 
-export HOME=${OLDHOME} 
-export GNUPGHOME=${OLDGNUPGHOME}
 
-#debsign
+export ARCH="amd64"
+sudo -E pbuilder --build ${@}
+
+export HOME=${OLDHOME}
+export GNUPGHOME=${OLDGNUPGHOME}

@@ -3,9 +3,14 @@
 # pcreate 
 # (c) 2011 Alf Gaida <info@g-com.eu>
 # 
-export OLDGNUPGHOME=$GNUPGHOME
+export OLDHOME=${HOME}
+export OLDGNUPGHOME=${GNUPGHOME}
+
+export HOME="/root"
+export GNUPGHOME="/root/.gnupg"
 
 export ARCH="amd64"
-sudo -E pbuilder --create $@
+sudo -E pbuilder --create ${@}
 
-export GNUPGHOME=$OLDGNUPGHOME
+export HOME=${OLDHOME} 
+export GNUPGHOME=${OLDGNUPGHOME}

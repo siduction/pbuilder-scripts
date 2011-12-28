@@ -82,10 +82,10 @@ HOOKDIR=/var/cache/pbuilder/hooks
 
 case "${ARCH}" in 
   i386)
-      DEBBUILDOPTS="-j4 -b"
+      DEBBUILDOPTS="-j1 -b"
       ;;
   amd64)
-      DEBUILDOPTS="-j4"
+      DEBBUILDOPTS="-j4"
       ;;	
 esac
 
