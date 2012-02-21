@@ -10,7 +10,7 @@ export HOME="/root"
 export GNUPGHOME="/root/.gnupg"
 
 export ARCH="amd64"
-sudo -E pbuilder --update ${@}
+sudo -E pbuilder --update --override-config ${@}
 
 export HOME=${OLDHOME} 
 export GNUPGHOME=${OLDGNUPGHOME}
