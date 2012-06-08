@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+if [ -d ${@} ]; then
+  cd ./${@}
+  debuild -S -us -uc
+  cd ..
+fi
+
+
