@@ -2,16 +2,13 @@
 #
 # plogin
 # (c) 2011 Alf Gaida <info@g-com.eu>
-# 
-export OLDHOME=${HOME}
+#
+export BUILDER=$(whoami)
 export OLDGNUPGHOME=${GNUPGHOME}
-
-export HOME="/root"
 export GNUPGHOME="/root/.gnupg"
 
 export ARCH="amd64"
 export debian_chroot="pbuild-amd64 $$"
 sudo -E pbuilder --login ${@}
 
-export HOME=${OLDHOME} 
 export GNUPGHOME=${OLDGNUPGHOME}

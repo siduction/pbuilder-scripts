@@ -3,9 +3,12 @@
 # packs386
 # (c) 2011 Alf Gaida <info@g-com.eu>
 # 
-export OLDGNUPGHOME=${GNUPGHOME}
 
+export TMPSCRIPT=/tmp/packs-script-$(whoami)
+export OLDGNUPGHOME=${GNUPGHOME}
 export ARCH="i386"
+export BUILDER=$(whoami)
+
 
 if [ -f ~/.pbuilderrc ]; then
     . ~/.pbuilderrc
@@ -13,10 +16,10 @@ fi
 
 export GNUPGHOME=${OLDGNUPGHOME}
 
-cat ~/.bashrc > /tmp/packs386-script~
-echo "cd ${BUILDRESULT}" >> /tmp/packs386-script~
-echo "SAVEPS=${PS1}" >> /tmp/packs386-script~
-echo "export PS1='\[\033[1;33m\]pbuilder-shell. Leave with exit:\w \$\[\033[0m\] '" >> /tmp/packs386-script~
-bash --rcfile /tmp/packs386-script~
+cat ~/.bashrc > $TMPSCRIPT
+echo "cd ${BUILDRESULT}" >> $TMPSCRIPT
+echo "SAVEPS=${PS1}" >> $TMPSCRIPT
+echo "export PS1='\[\033[1;33m\]pbuilder-shell. Leave with exit:\w \$\[\033[0m\] '" >> $TMPSCRIPT
+bash --rcfile $TMPSCRIPT
 
 

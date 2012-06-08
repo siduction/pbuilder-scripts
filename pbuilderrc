@@ -1,7 +1,4 @@
 export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/libeatmydata/libeatmydata.so"
-export CCACHE_DIR="/var/cache/pbuilder/ccache"
-export PATH="/usr/lib/ccache:${PATH}"
-
 
 # Codenames for Debian suites according to their alias. Update these when
 # needed.
@@ -61,7 +58,7 @@ fi
 export NAME
 
 
-BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
+BASETGZ="/home/$BUILDER/.pbuilder/basetgz/$NAME-base.tgz"
 DISTRIBUTION="$DIST"
 
 
@@ -69,19 +66,20 @@ DISTRIBUTION="$DIST"
 export APTCACHEHARDLINK=no
 
 
-BUILDRESULT="/var/cache/pbuilder/$NAME/result/"
-APTCACHE="/var/cache/pbuilder/$NAME/aptcache/"
-BUILDPLACE="/var/pbuilder"
-BINDMOUNTS="${CCACHE_DIR} \
-            /var/debs"
-HOOKDIR=/var/cache/pbuilder/hooks
+BUILDRESULT="/home/$BUILDER/buildresult/"
+APTCACHE="/home/$BUILDER/.pbuilder/$NAME/aptcache/"
+BUILDPLACE="/home/debbuilder/pbuilder/build"
+HOOKDIR=/home/$BUILDER/.pbuilder/hooks
+CCACHEDIR="/home/$BUILDER/.ccache"
+export PATH="/usr/lib/ccache:${PATH}"
+BINDMOUNTS="/home/$BUILDER/.gnupg"
 
 case "${ARCH}" in 
   i386)
-      DEBBUILDOPTS="-j4 -B"
+      DEBBUILDOPTS="-j8 -B"
       ;;
   amd64)
-      DEBBUILDOPTS="-j4 -b"
+      DEBBUILDOPTS="-j8 -b"
       ;;	
 esac
 

@@ -2,16 +2,13 @@
 #
 # plogin386
 # (c) 2011 Alf Gaida <info@g-com.eu>
-# 
-export OLDHOME=${HOME}
+#
+export BUILDER=$(whoami)
 export OLDGNUPGHOME=${GNUPGHOME}
-
-export HOME="/root"
-export GNUPGHOME="/root/.gnupg"
+export GNUPGHOME="/home/${BUILDER}/.gnupg"
 
 export ARCH="i386"
 export debian_chroot="pbuild-i386 $$"
 sudo -E pbuilder --login ${@}
 
-export HOME=${OLDHOME} 
 export GNUPGHOME=${OLDGNUPGHOME}

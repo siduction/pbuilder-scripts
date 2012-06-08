@@ -1,0 +1,3 @@
+#!/bin/bash
+
+debsign /tmp/buildd/*.changes -k${DEBSIGN_KEYID} 

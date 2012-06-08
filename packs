@@ -3,9 +3,10 @@
 # packs
 # (c) 2011 Alf Gaida <info@g-com.eu>
 # 
+export TMPSCRIPT=/tmp/packs-script-$(whoami)
 export OLDGNUPGHOME=${GNUPGHOME}
-
 export ARCH="amd64"
+export BUILDER=$(whoami)
 
 if [ -f ~/.pbuilderrc ]; then
     . ~/.pbuilderrc
@@ -13,10 +14,11 @@ fi
 
 export GNUPGHOME=${OLDGNUPGHOME}
 
-cat ~/.bashrc > /tmp/packs-script~
-echo "cd ${BUILDRESULT}" >> /tmp/packs-script~
-echo "SAVEPS=${PS1}" >> /tmp/packs-script~
-echo "export PS1='\[\033[1;33m\]pbuilder-shell. Leave with exit:\w \$\[\033[0m\] '" >> /tmp/packs-script~
-bash --rcfile /tmp/packs-script~
+cat ~/.bashrc > $TMPSCRIPT
+echo "cd ${BUILDRESULT}" >> $TMPSCRIPT
+echo "SAVEPS=${PS1}" >> $TMPSCRIPT
+echo "export PS1='\[\033[1;33m\]pbuilder-shell. Leave with exit:\w \$\[\033[0m\] '" >> $TMPSCRIPT
+bash --rcfile $TMPSCRIPT
+rm $TMPSCRIPT
 
 
