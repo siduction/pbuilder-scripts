@@ -58,7 +58,7 @@ fi
 export NAME
 
 
-BASETGZ="/home/$BUILDER/.pbuilder/basetgz/$NAME-base.tgz"
+BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
 DISTRIBUTION="$DIST"
 
 
@@ -66,11 +66,11 @@ DISTRIBUTION="$DIST"
 export APTCACHEHARDLINK=no
 
 
-BUILDRESULT="/home/$BUILDER/buildresult/"
-APTCACHE="/home/$BUILDER/.pbuilder/$NAME/aptcache/"
-BUILDPLACE="/home/debbuilder/pbuilder/build"
-HOOKDIR=/home/$BUILDER/.pbuilder/hooks
-CCACHEDIR="/home/$BUILDER/.ccache"
+BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
+APTCACHE="/var/cache/pbuilder/aptcache/"
+BUILDPLACE="/var/cache/pbuilder/build"
+HOOKDIR="/var/cache/pbuilder/hooks"
+CCACHEDIR="/var/cache/pbuilder/ccache"
 export PATH="/usr/lib/ccache:${PATH}"
 BINDMOUNTS="/home/$BUILDER/.gnupg"
 
