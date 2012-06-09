@@ -1,14 +1,13 @@
 #!/bin/bash
 #
-# plogin386
-# (c) 2011 Alf Gaida <info@g-com.eu>
+# pbuild386
+# (c) 2011-2012 Alf Gaida <agaida@siduction.org>
 #
-export BUILDER=$(whoami)
+. /usr/share/pbuilder-scripts/set_pbuilder
 export OLDGNUPGHOME=${GNUPGHOME}
 export GNUPGHOME="/home/${BUILDER}/.gnupg"
 
 export ARCH="i386"
-export debian_chroot="pbuild-i386 $$"
-sudo -E pbuilder --login ${@}
+sudo -E pbuilder --build ${@}
 
 export GNUPGHOME=${OLDGNUPGHOME}

@@ -1,8 +1,0 @@
-DEBFULLNAME='Alf Gaida'
-DEBEMAIL='Alf Gaida (Buildserver Siduction) <agaida@siduction.org>'
-DEBSIGN_KEYID=0F8B0E40
-DEBSIGN_ALWAYS_RESIGN=yes
-DEBUILD_DPKG_BUILDPACKAGE_OPTS="-ICVS -I.svn -I.git -us -uc"
-EDITOR='nano'
-LANG=C
-

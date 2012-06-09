@@ -1,0 +1,5 @@
+pbuilder-scripts (0.1) unstable; urgency=low
+
+  * initial release, bundling just a bunch of scripts
+
+ -- Alf Gaida <agaida@siduction.org>  Mon, 12 Mar 2012 18:32:05 +0100

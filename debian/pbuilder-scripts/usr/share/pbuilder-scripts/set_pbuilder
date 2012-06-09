@@ -1,0 +1,61 @@
+#!/bin/bash
+
+export BUILDER=$(whoami)
+
+if [ -f /etc/pbuilderrc ]; then
+  BUILDRC="GLOBAL"
+fi
+
+if [ -f ~/.pbuilderrc ]; then
+  BUILDRC="USER"
+fi
+
+
+if [ -f ./.pbuilderrc ]; then
+  BUILDRC="DIR"
+fi
+
+
+if [ -f ~/.debuildrc ]; then
+  DEBUILDRC="USER"
+fi
+
+
+if [ -f ./.debuildrc ]; then
+  DEBUILDRC="DIR"
+fi
+
+
+
+case $BUILDRC in
+"GLOBAL")
+  echo 'use /etc/pbuilderrc'
+    ;;
+"USER")
+    echo 'use ~/.pbuilderrc'
+    . ~/.pbuilderrc
+    ;;
+"DIR")
+    echo 'use /$dir/.pbuilderrc'
+    . ./.pbuilderrc
+    ;;
+*)
+    echo "not configured, please conigure pbuilder"
+    break
+    ;;
+esac
+
+case $DEBUILDRC in
+"USER")
+    echo 'use ~/.debuildrc'
+    . ~/.debuildrc
+    ;;
+"DIR")
+    echo 'use /$dir/.debuildrc'
+    . ./.debuildrc
+    ;;
+*)
+    echo 'not configured, please configure ~/.debbuildrc oder /$dir/.debbuildrc'
+    ;;
+esac
+

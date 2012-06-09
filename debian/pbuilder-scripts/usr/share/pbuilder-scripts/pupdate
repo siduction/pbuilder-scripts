@@ -3,7 +3,7 @@
 # pupdate
 # (c) 2011 Alf Gaida <info@g-com.eu>
 #
-export BUILDER=$(whoami)
+. /usr/share/pbuilder-scripts/set_pbuilder
 export OLDGNUPGHOME=${GNUPGHOME}
 export GNUPGHOME="/home/${BUILDER}/.gnupg"
 

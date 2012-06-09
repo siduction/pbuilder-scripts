@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# packs
+# (c) 2011 Alf Gaida <info@g-com.eu>
+#
+. /usr/share/pbuilder-scripts/set_pbuilder
+TMPSCRIPT=/tmp/packs-script-${BUILDER}
+export ARCH="amd64"
+
+cat ~/.bashrc > $TMPSCRIPT
+echo "cd ${BUILDRESULT}" >> $TMPSCRIPT
+echo "SAVEPS=${PS1}" >> $TMPSCRIPT
+echo "export PS1='\[\033[1;33m\]pbuilder-shell. Leave with exit:\w \$\[\033[0m\] '" >> $TMPSCRIPT
+bash --rcfile $TMPSCRIPT
+rm $TMPSCRIPT
+
+

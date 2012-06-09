@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# plogin386
+# (c) 2011-2012 Alf Gaida <agaida@siduction.org>
+#
+. /usr/share/pbuilder-scripts/set_pbuilder
+export OLDGNUPGHOME=${GNUPGHOME}
+export GNUPGHOME="/home/${BUILDER}/.gnupg"
+
+export ARCH="i386"
+export debian_chroot="pbuild-i386 $$"
+sudo -E pbuilder --login ${@}
+
+export GNUPGHOME=${OLDGNUPGHOME}

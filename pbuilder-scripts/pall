@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+# pall - just make all steps
+# (c) 2011-2012 Alf Gaida <agaida@siduction.org>
+#
+
+psource $2

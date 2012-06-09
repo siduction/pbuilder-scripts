@@ -1,9 +1,6 @@
 #!/bin/bash
-#
-# packs
-# (c) 2011 Alf Gaida <info@g-com.eu>
-#
-BUILDER=$(whoami)
+
+export BUILDER=$(whoami)
 
 if [ -f /etc/pbuilderrc ]; then
   BUILDRC="GLOBAL"
@@ -50,8 +47,8 @@ esac
 
 case $DEBUILDRC in
 "USER")
-    echo 'use ~/.debbuildrc'
-    . ~/.debbuildrc
+    echo 'use ~/.debuildrc'
+    . ~/.debuildrc
     ;;
 "DIR")
     echo 'use /$dir/.debuildrc'
@@ -61,15 +58,4 @@ case $DEBUILDRC in
     echo 'not configured, please configure ~/.debbuildrc oder /$dir/.debbuildrc'
     ;;
 esac
-
-TMPSCRIPT=/tmp/packs-script-${BUILDER}
-ARCH="amd64"
-
-cat ~/.bashrc > $TMPSCRIPT
-echo "cd ${BUILDRESULT}" >> $TMPSCRIPT
-echo "SAVEPS=${PS1}" >> $TMPSCRIPT
-echo "export PS1='\[\033[1;33m\]pbuilder-shell. Leave with exit:\w \$\[\033[0m\] '" >> $TMPSCRIPT
-bash --rcfile $TMPSCRIPT
-rm $TMPSCRIPT
-
 

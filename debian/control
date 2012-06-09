@@ -1,0 +1,17 @@
+Source: pbuilder-scripts
+Section: devel
+Priority: extra
+Maintainer: Alf Gaida <agaida@siduction.org>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.3
+Homepage: http://
+Vcs-Git: git://git.
+Vcs-Browser: http://git
+
+Package: pbuilder-scripts
+Architecture: all
+Depends: ${misc:Depends},
+    pbuilder,
+    lsb-core
+Description: Set of pbuilder helpers
+ Some useful description should be added here

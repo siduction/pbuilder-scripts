@@ -1,16 +1,13 @@
 #!/bin/bash
 #
-# pbuild386 
+# pupdate386
 # (c) 2011 Alf Gaida <info@g-com.eu>
-# 
-export BUILDER=$(whoami)
+#
+. /usr/share/pbuilder-scripts/set_pbuilder
 export OLDGNUPGHOME=${GNUPGHOME}
 export GNUPGHOME="/home/${BUILDER}/.gnupg"
-export AUTO_DEBSIGN=yes
-export DEBSIGN_PROGRAM=gpg
-export DEBSIGN_ALWAYS_RESIGN=yes
 
 export ARCH="i386"
-sudo -E pbuilder --build ${@}
+sudo -E pbuilder --update --override-config ${@}
 
 export GNUPGHOME=${OLDGNUPGHOME}
