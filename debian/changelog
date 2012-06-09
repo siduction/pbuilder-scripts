@@ -4,7 +4,8 @@ pbuilder-scripts (0.2) UNRELEASED; urgency=low
   * a few file movements
   * other_mirrors can now set with debuildrc
   * mirror can now set with debuildrc
-  * architecture set in the first Ãplace 
+  * architecture set in the first place 
+  * some configuration glitches removed 
 
  -- Alf Gaida <agaida@siduction.org>  Sat, 09 Jun 2012 19:33:36 +0200
 

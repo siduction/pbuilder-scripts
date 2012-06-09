@@ -55,13 +55,7 @@ if [ -n "${ARCH}" ]; then
 fi
 export NAME
 
-echo "Debugging Arch=$ARCH, Name=$NAME"
-
-BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
-DISTRIBUTION="$DIST"
-
-
-# for tmpfs
+# common pbuilder settings
 export USEPROC=yes
 export USEDEVPTS=yes
 export PKGNAME_LOGFILE_EXTENTION=.build
@@ -69,7 +63,7 @@ export PKGNAME_LOGFILE=yes
 export APTCACHEHARDLINK=no
 export PATH="/usr/lib/ccache:${PATH}"
 
-
+BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
 BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
 APTCACHE="/var/cache/pbuilder/aptcache/"
 BUILDPLACE="/var/cache/pbuilder/build"

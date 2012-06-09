@@ -1,3 +1,9 @@
+#!/bin/bash
+#
+# debuildrc
+# (c) 2012 Alf Gaida <agaida@siduction.org>
+#
+
 ## Common debian build settings
 export DEBFULLNAME='your name'
 export DEBEMAIL='your name <yourname@domain.tld>'
@@ -9,15 +15,8 @@ export DEBUILD_DPKG_BUILDPACKAGE_OPTS="-ICVS -I.svn -I.git -us -uc"
 export EDITOR='nano'
 export LANG=C
 
-#x# misc pbuilder settings
-# export USEPROC=yes
-# export USEDEVPTS=yes
-# export PKGNAME_LOGFILE_EXTENTION=.build
-# export PKGNAME_LOGFILE=yes
-
 ## Secure Setting, Trusts
 # ALLOWUNTRUSTED=yes
-
 
 ## prefered mirrors
 #
@@ -30,15 +29,23 @@ export LANG=C
 #     deb http://packages.siduction.org/razorqt unstable main contrib non-free"
 
 
-## pbuilder directories, normaly set in the pbuilderrc
+## pbuilder commons, normaly set in the pbuilderrc
 #
+# common pbuilder settings
+# export USEPROC=yes
+# export USEDEVPTS=yes
+# export PKGNAME_LOGFILE_EXTENTION=.build
+# export PKGNAME_LOGFILE=yes
+# export APTCACHEHARDLINK=no
+#
+# BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
 # BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
 # APTCACHE="/var/cache/pbuilder/aptcache/"
 # BUILDPLACE="/var/cache/pbuilder/build"
 # HOOKDIR="/var/cache/pbuilder/hooks"
 # CCACHEDIR="/var/cache/pbuilder/ccache"
 # BINDMOUNTS="/home/$BUILDER/.gnupg"
-
+# export PATH="/usr/lib/ccache:${PATH}"
 
 #Quilt
 export QUILT_PATCHES=debian/patches
