@@ -61,7 +61,6 @@ export USEDEVPTS=yes
 export PKGNAME_LOGFILE_EXTENTION=.build
 export PKGNAME_LOGFILE=yes
 export APTCACHEHARDLINK=no
-export PATH="/usr/lib/ccache:${PATH}"
 
 BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
 BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
@@ -70,6 +69,8 @@ BUILDPLACE="/var/cache/pbuilder/build"
 HOOKDIR="/var/cache/pbuilder/hooks"
 CCACHEDIR="/var/cache/pbuilder/ccache"
 BINDMOUNTS="/home/$BUILDER/.gnupg"
+export PATH="/usr/lib/ccache:${PATH}"
+
 
 case "${ARCH}" in
   i386)
