@@ -53,17 +53,21 @@ if [ -n "${ARCH}" ]; then
     NAME="$NAME-$ARCH"
     DEBOOTSTRAPOPTS=("--arch" "$ARCH" "${DEBOOTSTRAPOPTS[@]}")
 fi
-
-
 export NAME
 
+echo "Debugging Arch=$ARCH, Name=$NAME"
 
 BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
 DISTRIBUTION="$DIST"
 
 
 # for tmpfs
+export USEPROC=yes
+export USEDEVPTS=yes
+export PKGNAME_LOGFILE_EXTENTION=.build
+export PKGNAME_LOGFILE=yes
 export APTCACHEHARDLINK=no
+export PATH="/usr/lib/ccache:${PATH}"
 
 
 BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
@@ -71,7 +75,6 @@ APTCACHE="/var/cache/pbuilder/aptcache/"
 BUILDPLACE="/var/cache/pbuilder/build"
 HOOKDIR="/var/cache/pbuilder/hooks"
 CCACHEDIR="/var/cache/pbuilder/ccache"
-export PATH="/usr/lib/ccache:${PATH}"
 BINDMOUNTS="/home/$BUILDER/.gnupg"
 
 case "${ARCH}" in
@@ -82,11 +85,6 @@ case "${ARCH}" in
       DEBBUILDOPTS="-j8 -b"
       ;;
 esac
-
-export USEPROC=yes
-export USEDEVPTS=yes
-export PKGNAME_LOGFILE_EXTENTION=.build
-export PKGNAME_LOGFILE=yes
 
 EXTRAPACKAGES=" siduction-archive-keyring \
                 eatmydata \
@@ -120,20 +118,22 @@ if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
     MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
     COMPONENTS="main contrib non-free"
     # for siduction  - add the sidcution-mirror
-	case $DIST in
-	sid)
-        #OTHERMIRROR="deb http://packages.siduction.org/siduction unstable main contrib non-free | \
-        #    deb http://repo.percona.com/apt squeeze main | \
-        #    deb http://ftp.debian.org/debian experimental main contrib non-free | \
-        #    deb http://packages.siduction.org/fixes unstable main contrib non-free | \
-        #    deb http://packages.siduction.org/release unstable main contrib non-free | \
-        #    deb http://packages.siduction.org/razorqt unstable main contrib non-free"
-		;;
-    testing)
-   		;;
-	stable)
-	    ;;
-	esac
+    case $DIST in
+        $UNSTABLE_CODENAME)
+            OTHERMIRROR="deb http://packages.siduction.org/siduction unstable main contrib non-free | \
+            deb http://repo.percona.com/apt squeeze main | \
+            deb http://ftp.debian.org/debian experimental main contrib non-free | \
+            deb http://packages.siduction.org/fixes unstable main contrib non-free | \
+            deb http://packages.siduction.org/release unstable main contrib non-free | \
+            deb http://packages.siduction.org/razorqt unstable main contrib non-free"
+            ;;
+        $TESTING_CODENAME)
+            ;;
+	$STABLE_CODENAME)
+            ;;
+        *)
+            ;;
+    esac
     DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg")
 else
     echo "Unknown distribution: $DIST"

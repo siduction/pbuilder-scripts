@@ -3,11 +3,11 @@
 # pupdate386
 # (c) 2011 Alf Gaida <info@g-com.eu>
 #
+export ARCH="i386"
 . /usr/share/pbuilder-scripts/set_pbuilder
 export OLDGNUPGHOME=${GNUPGHOME}
 export GNUPGHOME="/home/${BUILDER}/.gnupg"
 
-export ARCH="i386"
 sudo -E pbuilder --update --override-config ${@}
 
 export GNUPGHOME=${OLDGNUPGHOME}

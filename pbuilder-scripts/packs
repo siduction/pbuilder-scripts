@@ -3,9 +3,9 @@
 # packs
 # (c) 2011-2012 Alf Gaida <agaida@siduction.org>
 #
+export ARCH="amd64"
 . /usr/share/pbuilder-scripts/set_pbuilder
 TMPSCRIPT=/tmp/packs-script-${BUILDER}
-export ARCH="amd64"
 
 cat ~/.bashrc > $TMPSCRIPT
 echo "cd ${BUILDRESULT}" >> $TMPSCRIPT

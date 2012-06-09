@@ -3,9 +3,9 @@
 # packs386
 # (c) 2011-2012 Alf Gaida <agaida@siduction.org>
 #
+export ARCH="i386"
 . /usr/share/pbuilder-scripts/set_pbuilder
 TMPSCRIPT=/tmp/packs-script-${BUILDER}
-export ARCH="i386"
 
 cat ~/.bashrc > $TMPSCRIPT
 echo "cd ${BUILDRESULT}" >> $TMPSCRIPT

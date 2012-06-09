@@ -1,3 +1,4 @@
+## Common debian build settings
 export DEBFULLNAME='your name'
 export DEBEMAIL='your name <yourname@domain.tld>'
 export DEBSIGN_KEYID=0815key
@@ -8,13 +9,35 @@ export DEBUILD_DPKG_BUILDPACKAGE_OPTS="-ICVS -I.svn -I.git -us -uc"
 export EDITOR='nano'
 export LANG=C
 
-DEBIAN_MIRROR="ftp.debian.org"
-OTHERMIRROR="deb http://packages.siduction.org/siduction unstable main contrib non-free | \
-	deb http://repo.percona.com/apt squeeze main | \
-	deb http://ftp.debian.org/debian experimental main contrib non-free | \
-    deb http://packages.siduction.org/fixes unstable main contrib non-free | \
-    deb http://packages.siduction.org/release unstable main contrib non-free | \
-    deb http://packages.siduction.org/razorqt unstable main contrib non-free"
+#x# misc pbuilder settings
+# export USEPROC=yes
+# export USEDEVPTS=yes
+# export PKGNAME_LOGFILE_EXTENTION=.build
+# export PKGNAME_LOGFILE=yes
+
+## Secure Setting, Trusts
+# ALLOWUNTRUSTED=yes
+
+
+## prefered mirrors
+#
+# DEBIAN_MIRROR="ftp.debian.org"
+# OTHERMIRROR="deb http://packages.siduction.org/siduction unstable main contrib non-free | \
+#     deb http://repo.percona.com/apt squeeze main | \
+#     deb http://ftp.debian.org/debian experimental main contrib non-free | \
+#     deb http://packages.siduction.org/fixes unstable main contrib non-free | \
+#     deb http://packages.siduction.org/release unstable main contrib non-free | \
+#     deb http://packages.siduction.org/razorqt unstable main contrib non-free"
+
+
+## pbuilder directories, normaly set in the pbuilderrc
+#
+# BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
+# APTCACHE="/var/cache/pbuilder/aptcache/"
+# BUILDPLACE="/var/cache/pbuilder/build"
+# HOOKDIR="/var/cache/pbuilder/hooks"
+# CCACHEDIR="/var/cache/pbuilder/ccache"
+# BINDMOUNTS="/home/$BUILDER/.gnupg"
 
 
 #Quilt
