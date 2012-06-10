@@ -47,7 +47,44 @@ export LANG=C
 # BINDMOUNTS="/home/$BUILDER/.gnupg"
 # export PATH="/usr/lib/ccache:${PATH}"
 
+#case "${ARCH}" in
+#  i386)
+#      DEBBUILDOPTS="-j8 -B"
+#      ;;
+#  amd64)
+#      DEBBUILDOPTS="-j8 -b"
+#      ;;
+#esac
 #Quilt
 export QUILT_PATCHES=debian/patches
 export QUILT_REFRESH_ARGS="-p ab --no-timestamps --no-index"
 
+# Mirrors to use. Update these to your preferred mirror.
+# DEBIAN_MIRROR="ftp.debian.org"
+#
+# if $(echo ${DEBIAN_SUITES[@]} | grep -q $DIST); then
+#     # Debian configuration
+#     MIRRORSITE="http://$DEBIAN_MIRROR/debian/"
+#     COMPONENTS="main contrib non-free"
+#     # for siduction  - add the sidcution-mirror
+#     case $DIST in
+#         $UNSTABLE_CODENAME)
+#             OTHERMIRROR="deb http://packages.siduction.org/siduction unstable main contrib non-free | \
+#                 deb http://repo.percona.com/apt squeeze main | \
+#                 deb http://ftp.debian.org/debian experimental main contrib non-free | \
+#                 deb http://packages.siduction.org/fixes unstable main contrib non-free | \
+#                 deb http://packages.siduction.org/release unstable main contrib non-free | \
+#                 deb http://packages.siduction.org/razorqt unstable main contrib non-free"
+#             ;;
+#         $TESTING_CODENAME)
+#             ;;
+#         $STABLE_CODENAME)
+#             ;;
+#         *)
+#             ;;
+#     esac
+#     DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg")
+# else
+#     echo "Unknown distribution: $DIST"
+#     exit 1
+# fi
