@@ -11,7 +11,9 @@ Vcs-Browser: http://git
 Package: pbuilder-scripts
 Architecture: all
 Depends: ${misc:Depends},
+    devscripts,
     pbuilder,
+    libparse-debcontrol-perl,
     lsb-core
 Description: Set of pbuilder helpers
  Some useful description should be added here

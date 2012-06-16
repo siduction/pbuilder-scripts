@@ -1,13 +1,25 @@
-pbuilder-scripts (0.2) UNRELEASED; urgency=low
+pbuilder-scripts (0.3) UNRELEASED; urgency=low
 
-  [ Alf Gaida ]
+  * linking the scripts to /usr/bin
+  * devscripts added to depends
+  * libparse-debcontrol-perl added to depends
+  * debian/TODO added
+  * rename debuildrc to devscripts.conf to reflect the devscripts package
+  * split pbuilderrc to pbuilder.conf and pbuilder.user 
+  * reworked pbuilder_scripts/set_pbuilder 
+  * .pbuildrc and .devscripts are handled 
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 10 Jun 2012 13:44:59 +0200
+
+pbuilder-scripts (0.2) unstable; urgency=low
+
   * a few file movements
   * other_mirrors can now set with debuildrc
   * mirror can now set with debuildrc
   * architecture set in the first place 
   * some configuration glitches removed 
 
- -- Alf Gaida <agaida@siduction.org>  Sat, 09 Jun 2012 19:33:36 +0200
+ -- Alf Gaida <agaida@siduction.org>  Sun, 10 Jun 2012 13:44:48 +0200
 
 pbuilder-scripts (0.1) unstable; urgency=low
 

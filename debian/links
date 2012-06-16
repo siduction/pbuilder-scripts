@@ -1,1 +1,17 @@
 usr/share/pbuilder-scripts/B80debsign /var/cache/pbuilder/hooks/B80debsign
+usr/share/pbuilder-scripts/pbuilder.conf /etc/pbuilderrc
+
+# amd64
+usr/share/pbuilder-scripts/packs      /usr/bin/packs
+usr/share/pbuilder-scripts/pbuild     /usr/bin/pbuild
+usr/share/pbuilder-scripts/pcreate    /usr/bin/pcreate
+usr/share/pbuilder-scripts/plogin     /usr/bin/plogin
+usr/share/pbuilder-scripts/pupdate    /usr/bin/pupdate
+
+# i386
+usr/share/pbuilder-scripts/packs386   /usr/bin/packs386
+usr/share/pbuilder-scripts/pbuild386  /usr/bin/pbuild386
+usr/share/pbuilder-scripts/pcreate386 /usr/bin/pcreate386
+usr/share/pbuilder-scripts/plogin386  /usr/bin/plogin386
+usr/share/pbuilder-scripts/pupdate386 /usr/bin/pupdate386
+
