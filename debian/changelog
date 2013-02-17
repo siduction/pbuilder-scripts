@@ -1,4 +1,16 @@
-pbuilder-scripts (0.3) UNRELEASED; urgency=low
+pbuilder-scripts (0.4) unstable; urgency=low
+
+  * new runtime-dependencies:
+    libtie-ixhash-perl
+    libparse-debcontrol-perl
+    libio-stringy-perl
+    libexporter-lite-perl
+    eatmydata
+    realpath 
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 17 Feb 2013 15:26:50 +0100
+
+pbuilder-scripts (0.3) unstable; urgency=low
 
   * linking the scripts to /usr/bin
   * devscripts added to depends
@@ -9,7 +21,7 @@ pbuilder-scripts (0.3) UNRELEASED; urgency=low
   * reworked pbuilder_scripts/set_pbuilder 
   * .pbuildrc and .devscripts are handled 
 
- -- Alf Gaida <agaida@siduction.org>  Sun, 10 Jun 2012 13:44:59 +0200
+ -- Alf Gaida <agaida@siduction.org>  Sun, 17 Feb 2013 15:23:20 +0100
 
 pbuilder-scripts (0.2) unstable; urgency=low
 
