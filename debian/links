@@ -1,6 +1,3 @@
-usr/share/pbuilder-scripts/B80debsign /var/cache/pbuilder/hooks/B80debsign
-usr/share/pbuilder-scripts/pbuilder.conf /etc/pbuilderrc
-
 # amd64
 usr/share/pbuilder-scripts/packs      /usr/bin/packs
 usr/share/pbuilder-scripts/pbuild     /usr/bin/pbuild

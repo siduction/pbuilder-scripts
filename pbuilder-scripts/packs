@@ -1,17 +1,38 @@
 #!/bin/bash
 #
 # packs
-# (c) 2011-2012 Alf Gaida <agaida@siduction.org>
+#
+# (c) 2011-2013 Alf Gaida <agaida@siduction.org>
 #
 export ARCH="amd64"
+export DIST="unstable"
+export RELEASE="unstable"
+while getopts “a:r:s:h” OPTION; do
+     case ${OPTION} in
+         a)
+             ARCH=${OPTARG}
+             export $ARCH
+             ;;
+         r)
+             RELEASE=${OPTARG}
+             export $RELEASE
+             ;;
+         h)
+             #usage
+             exit
+             ;;
+     esac
+done
+
 . /usr/share/pbuilder-scripts/set_pbuilder
-TMPSCRIPT=/tmp/packs-script-${BUILDER}
 
-cat ~/.bashrc > $TMPSCRIPT
-echo "cd ${BUILDRESULT}" >> $TMPSCRIPT
-echo "SAVEPS=${PS1}" >> $TMPSCRIPT
-echo "export PS1='\[\033[1;33m\]pbuilder-shell. Leave with exit:\w \$\[\033[0m\] '" >> $TMPSCRIPT
-bash --rcfile $TMPSCRIPT
-rm $TMPSCRIPT
 
+cd $BUILDRESULT
+echo -e "\033[1m\033[33mpbuilder-results: Leave with exit"
+echo -e "$(pwd)\033[0m"; 
+echo
+ls -ap --color=always;
+echo
+export PS1='\[\033[1;33m\]\u@\h:\W \$\[\033[0m\] ' 
+bash --posix
 

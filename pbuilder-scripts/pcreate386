@@ -1,13 +1,7 @@
 #!/bin/bash
 #
 # pcreate386
-# (c) 2011-2012 Alf Gaida <agaida@siduction.org>
 #
-export ARCH="i386"
-. /usr/share/pbuilder-scripts/set_pbuilder
-export OLDGNUPGHOME=${GNUPGHOME}
-export GNUPGHOME="/home/${BUILDER}/.gnupg"
-
-sudo -E pbuilder --create ${@}
-
-export GNUPGHOME=${OLDGNUPGHOME}
+# (c) 2011-2013 Alf Gaida <agaida@siduction.org>
+#
+pcreate -a i386 ${@}

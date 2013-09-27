@@ -1,16 +1,8 @@
 #!/bin/bash
 #
 # packs386
-# (c) 2011-2012 Alf Gaida <agaida@siduction.org>
 #
-export ARCH="i386"
-. /usr/share/pbuilder-scripts/set_pbuilder
-TMPSCRIPT=/tmp/packs-script-${BUILDER}
-
-cat ~/.bashrc > $TMPSCRIPT
-echo "cd ${BUILDRESULT}" >> $TMPSCRIPT
-echo "SAVEPS=${PS1}" >> $TMPSCRIPT
-echo "export PS1='\[\033[1;33m\]pbuilder-shell. Leave with exit:\w \$\[\033[0m\] '" >> $TMPSCRIPT
-bash --rcfile $TMPSCRIPT
-rm $TMPSCRIPT
+# (c) 2011-2013 Alf Gaida <agaida@siduction.org>
+#
+packs -a i386 ${@}
 

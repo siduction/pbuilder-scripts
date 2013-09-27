@@ -1,9 +1,29 @@
 #!/bin/bash
 #
 # pcreate
-# (c) 2011-2012 Alf Gaida <agaida@siduction.org>
+#
+# (c) 2011-2013 Alf Gaida <agaida@siduction.org>
 #
 export ARCH="amd64"
+export DIST="unstable"
+export RELEASE="unstable"
+while getopts “a:r:s:h” OPTION; do
+     case ${OPTION} in
+         a)
+             ARCH=${OPTARG}
+             export $ARCH
+             ;;
+         r)
+             RELEASE=${OPTARG}
+             export $RELEASE
+             ;;
+         h)
+             #usage
+             exit
+             ;;
+     esac
+done
+
 . /usr/share/pbuilder-scripts/set_pbuilder
 export OLDGNUPGHOME=${GNUPGHOME}
 export GNUPGHOME="/home/${BUILDER}/.gnupg"

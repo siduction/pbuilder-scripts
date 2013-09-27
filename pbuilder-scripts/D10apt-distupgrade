@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# D10-apt-update
+# (c) 2011-2013 Alf Gaida <agaida@siduction.org>
+#
+
+echo "updating repositories"
+apt-get update
+echo "upgrading chroot"
+apt-get dist-upgrade --assume-yes
+
