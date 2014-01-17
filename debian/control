@@ -3,14 +3,14 @@ Section: devel
 Priority: extra
 Maintainer: Alf Gaida <agaida@siduction.org>
 Build-Depends: debhelper (>= 9)
-Standards-Version: 3.9.4
-Homepage: http://
-Vcs-Git: git://git.
-Vcs-Browser: http://git
+Standards-Version: 3.9.5
+Vcs-Git: git://git.siduction.org/code/pbuilder-scripts
+Vcs-Browser: http://git.siduction.org/?p=code/pbuilder-scripts.git;a=summary
 
 Package: pbuilder-scripts
 Architecture: all
-Depends: ${misc:Depends},
+Depends: 
+    ${misc:Depends},
     devscripts,
     pbuilder,
     libparse-debcontrol-perl,

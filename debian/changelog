@@ -1,3 +1,11 @@
+pbuilder-scripts (0.9) unstable; urgency=medium
+
+  * copyright changed to wtfpl2
+  * new copyright format
+  * new standards 
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 17 Jan 2014 19:38:21 +0100
+
 pbuilder-scripts (0.8) unstable; urgency=low
 
   * typo in postinst removed
