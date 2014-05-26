@@ -3,17 +3,12 @@
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
 
-## some defaults for pure convenience
-USER=repouser
-HOST=packages.siduction.org
-REPOBASE="/var/www/virtual/packages/extra"
+## help
 
-SOURCEPATH="./build"
-DISTRIBUTION=extra
-RELEASE=next
-ARCH=i386
 
-BUILDTARGET="/var/cache/pbuilder/${RELEASE}-${ARCH}/result"
+## option handling
+
+
 
 
 ## get basic configuration form /etc/jenkins
@@ -27,6 +22,11 @@ if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
     echo "Configuration: ${HOME}/.config/jenkins-buildpackage.conf  used"
     . ${HOME}/.config/jenkins/jenkins-builpackage.conf
 fi
+
+# really dirty - serverside base is defined absolutely fugly 
+REPOBASE="/var/www/virtual/packages/${DISTRIBUTION}"
+BUILDTARGET="/var/cache/pbuilder/${RELEASE}-${ARCH}/result"
+
 
 ## is_valid_line
 is_valid_line() {

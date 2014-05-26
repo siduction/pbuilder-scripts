@@ -30,7 +30,8 @@ case "$1" in
         mkdir -p  /var/cache/pbuilder/sid-amd64/result
         mkdir -p  /var/cache/pbuilder/sid-i386/result
         chmod 777 /var/cache/pbuilder/*-*/result
-        cp -a /usr/share/pbuilder-scripts/etc/*   etc/
+        [ -f /etc/pbuilderrc ] && mv /etc/pbuilderrc /etc/pbuilderrc.old
+        ln -sf /etc/pbuilder/pbuilderrc  /etc/pbuilderrc
     ;;
     abort-upgrade|abort-remove|abort-deconfigure)
     ;;
