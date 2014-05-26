@@ -3,12 +3,29 @@
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
 
-## help
+## usage
+usage()
+{
+cat << EOF
+usage: $0 options
+
+#ToDo Write some useful description
+
+OPTIONS:
+   -h      Show this message
+   -a      Architecture, should be 'i386' or 'amd64'
+   -r      Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext  
+   -d      Distribution: unstable, next, experimental, sid
+   -V      Version
+
+EOF
+}
 
 
-## option handling
-
-
+## version
+version() {
+    echo "$0: 0.10"
+}
 
 
 ## get basic configuration form /etc/jenkins
@@ -23,9 +40,37 @@ if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
     . ${HOME}/.config/jenkins/jenkins-builpackage.conf
 fi
 
+
+
+## option handling
+
+while getopts “a:r:d:Vh” OPTION; do
+     case ${OPTION} in
+         a)
+             ARCH=${OPTARG}
+             echo "yeah fucking $ARCH ::: ${OPTARG} "
+             ;;
+         r)
+             REPO=${OPTARG}
+             ;;
+         d)
+             DISTRI=${OPTARG}
+             ;;
+         h)
+             usage
+             exit 0
+             ;;
+         V)
+             version
+             exit 0
+             ;;
+     esac
+done
+
+
 # really dirty - serverside base is defined absolutely fugly 
-REPOBASE="/var/www/virtual/packages/${DISTRIBUTION}"
-BUILDTARGET="/var/cache/pbuilder/${RELEASE}-${ARCH}/result"
+REPOBASE="/var/www/virtual/packages/${REPO}"
+BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
 
 
 ## is_valid_line
@@ -70,7 +115,7 @@ get_source_package() {
 build_source_package() {
    echo "\n -- jetzt könnte gebaut werden -- \n"
    pushd $SOURCEDIR
-   pbuild -a $ARCH -r $RELEASE  $BUILD_DSC
+   pbuild -a $ARCH -r $DISTRI  $BUILD_DSC
    RESULT=$?
    popd
    if [[ $RESULT -ne "0" ]]; then
@@ -83,14 +128,20 @@ build_source_package() {
 ## upload_package
 upload_package() {
     pushd $BUILDTARGET
-    dput  $DISTRIBUTION ${UPLOADFILES}changes
+    echo "REPO: x${REPO}x"
+    dput  $REPO ${UPLOADFILES}changes
     rm $UPLOADFILES
     popd
 }
 
 
+###debug
+echo "debug1"
+echo "ssh ${USER}@${HOST} cd ${REPOBASE}; reprepro build-needing $DISTRI  $ARCH"
+echo ""
+
 IFS=$'\n'
-for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing next i386"); do
+for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing $DISTRI  $ARCH"); do
     REPOLINE=$i
     echo "$REPOLINE --- \n"
     is_valid_line
