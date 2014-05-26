@@ -27,10 +27,10 @@ case "$1" in
         mkdir -p  /var/cache/pbuilder/next-i386/result
         mkdir -p  /var/cache/pbuilder/expetimental-amd64/result
         mkdir -p  /var/cache/pbuilder/experimental-i386/result
+        mkdir -p  /var/cache/pbuilder/sid-amd64/result
+        mkdir -p  /var/cache/pbuilder/sid-i386/result
         chmod 777 /var/cache/pbuilder/*-*/result
-        cp -a /usr/share/pbuilder-scripts/B80debsign          /var/cache/pbuilder/hooks/
-        cp -a /usr/share/pbuilder-scripts/D10apt-distupgrade  /var/cache/pbuilder/hooks/
-        cp -a /usr/share/pbuilder-scripts/pbuilder.conf       /etc/pbuilderrc
+        cp -a /usr/share/pbuilder-scripts/etc/*   etc/
     ;;
     abort-upgrade|abort-remove|abort-deconfigure)
     ;;

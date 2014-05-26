@@ -17,6 +17,8 @@ case "$RELEASE" in
     experimental)
         RELEASE="experimental"
 	;;
+    sid)
+
 esac
 
 # Optionally set the architecture to the host architecture if none set. Note
@@ -39,7 +41,7 @@ export PKGNAME_LOGFILE=yes
 export APTCACHEHARDLINK=no
 
 BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
-BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
+export BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
 APTCACHE="/var/cache/pbuilder/aptcache/"
 BUILDPLACE="/var/cache/pbuilder/build"
 HOOKDIR="/var/cache/pbuilder/hooks"
@@ -108,18 +110,25 @@ case $RELEASE in
         OTHERMIRROR=" \
             deb http://packages.siduction.org/base     unstable     main | \
             deb http://packages.siduction.org/base     next         main | \
+
             deb http://packages.siduction.org/extra    unstable     main | \
             deb http://packages.siduction.org/extra    next         main | \
+
             deb http://packages.siduction.org/fixes    unstable     main contrib non-free | \
             deb http://packages.siduction.org/fixes    next         main contrib non-free | \
+
             deb http://packages.siduction.org/kdenext  unstable     main | \
             deb http://packages.siduction.org/kdenext  next         main | \
+
             deb http://packages.siduction.org/lxdenext unstable     main | \
             deb http://packages.siduction.org/lxdenext next         main | \
+
             deb http://packages.siduction.org/razorqt  unstable     main | \
             deb http://packages.siduction.org/razorqt  next         main | \
+
             deb http://packages.siduction.org/xfcenext unstable     main | \
             deb http://packages.siduction.org/xfcenext next         main | \
+
             deb http://$DEBIAN_MIRROR/                 experimental main contrib non-free | \
         "
         ;;
@@ -128,27 +137,38 @@ case $RELEASE in
             deb http://packages.siduction.org/base     unstable     main | \
             deb http://packages.siduction.org/base     next         main | \
             deb http://packages.siduction.org/base     experimental main | \
+
             deb http://packages.siduction.org/extra    unstable     main | \
             deb http://packages.siduction.org/extra    next         main | \
             deb http://packages.siduction.org/extra    experimental main | \
+
             deb http://packages.siduction.org/fixes    unstable     main contrib non-free | \
             deb http://packages.siduction.org/fixes    next         main contrib non-free | \
             deb http://packages.siduction.org/fixes    experimental main contrib non-free | \
+
             deb http://packages.siduction.org/kdenext  unstable     main | \
             deb http://packages.siduction.org/kdenext  next         main | \
             deb http://packages.siduction.org/kdenext  experimental-snapshots  main | \
+
             deb http://packages.siduction.org/lxdenext unstable     main | \
             deb http://packages.siduction.org/lxdenext next         main | \
             deb http://packages.siduction.org/lxdenext experimental main | \
+
             deb http://packages.siduction.org/razorqt  unstable     main | \
             deb http://packages.siduction.org/razorqt  next         main | \
             deb http://packages.siduction.org/razorqt  experimental main | \
+
             deb http://packages.siduction.org/xfcenext unstable     main | \
             deb http://packages.siduction.org/xfcenext next         main | \
             deb http://packages.siduction.org/xfcenext experimental main | \
+
             deb http://$DEBIAN_MIRROR/                 experimental main contrib non-free | \
         "
         ;;
+    sid)
+
+
+
     *)
         echo "Unknown distribution: $DIST"
         exit 1

@@ -1,1 +1,3 @@
-pbuilder-scripts usr/share/
+bin   usr
+hooks var/cache/pbuilder
+etc   usr/share/pbuilder-scripts

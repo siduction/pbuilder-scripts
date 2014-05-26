@@ -1,0 +1,105 @@
+#!/bin/bash
+
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+
+## some defaults for pure convenience
+USER=repouser
+HOST=packages.siduction.org
+REPOBASE="/var/www/virtual/packages/extra"
+
+SOURCEPATH="./build"
+DISTRIBUTION=extra
+RELEASE=next
+ARCH=i386
+
+BUILDTARGET="/var/cache/pbuilder/${RELEASE}-${ARCH}/result"
+
+
+## get basic configuration form /etc/jenkins
+if [ -f /etc/jenkins/jenkins-buildpackage.conf ]; then
+    echo "Configuration: /etc/jenkins/jenkins-buildpackage.conf used"
+    . /etc/jenkins/jenkins-buildpackage.conf
+fi
+
+## get user conf
+if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
+    echo "Configuration: ${HOME}/.config/jenkins-buildpackage.conf  used"
+    . ${HOME}/.config/jenkins/jenkins-builpackage.conf
+fi
+
+## is_valid_line
+is_valid_line() {
+    [[ ! -e ./build_failed ]] && touch ./build_failed
+    grep "$REPOLINE" ./build_failed
+    RESULT=$?
+    echo "RESULT: $RESULT"
+    case $RESULT in
+        1)
+             echo "Valid line: $REPOLINE\n\n"
+        ;;
+        0)
+             echo "Faulty line: $REPOLINE\n\n"
+        ;;
+    esac
+    return $RESULT
+}
+
+
+## sub split repo_line
+split_repo_line() {
+    PACKAGE_NAME=$(echo $REPOLINE | awk -F' ' '{ print $1 }')
+    PACKAGE_VER=$(echo $REPOLINE | awk -F' ' '{ print $2 }')
+    PACKAGE_DSC=$(echo $REPOLINE | awk -F' ' '{ print $3 }')
+    PACKAGE_FILES=$(echo $PACKAGE_DSC | sed 's/\.dsc/*/')
+    SOURCEDIR=$SOURCEPATH/$PACKAGE_NAME-$PACKAGE_VER
+    BUILD_DSC=$(basename $PACKAGE_DSC)
+    UPLOADFILES=$(basename $PACKAGE_FILES)
+}
+
+## get_source_package
+get_source_package() {
+    [[ -d $SOURCEDIR ]] && rm -rv $SOURCEDIR
+    mkdir -p $SOURCEDIR
+    pushd $SOURCEDIR
+    scp  ${USER}@${HOST}:$REPOBASE/$PACKAGE_FILES .
+    popd
+}
+
+## build_source_package
+build_source_package() {
+   echo "\n -- jetzt könnte gebaut werden -- \n"
+   pushd $SOURCEDIR
+   pbuild -a $ARCH -r $RELEASE  $BUILD_DSC
+   RESULT=$?
+   popd
+   if [[ $RESULT -ne "0" ]]; then
+       echo "$REPOLINE" >>  build_failed
+   else
+       rm -f $SOURCEDIR
+   fi
+}
+
+## upload_package
+upload_package() {
+    pushd $BUILDTARGET
+    dput  $DISTRIBUTION ${UPLOADFILES}changes
+    rm $UPLOADFILES
+    popd
+}
+
+
+IFS=$'\n'
+for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing next i386"); do
+    REPOLINE=$i
+    echo "$REPOLINE --- \n"
+    is_valid_line
+    [[ "$?" -ne "1" ]] && continue
+    split_repo_line
+    get_source_package
+    build_source_package
+    echo "buildresult: $?" 
+    upload_package
+   break
+done
+
