@@ -1,3 +1,4 @@
-bin   usr
-hooks var/cache/pbuilder
-etc   usr/share/pbuilder-scripts
+bin            usr
+hooks          var/cache/pbuilder
+etc            usr/share/pbuilder-scripts
+set_pbuilder   usr/share/pbuilder-scripts
