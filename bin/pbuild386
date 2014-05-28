@@ -6,3 +6,8 @@
 #
 
 pbuild -a i386 ${@}
+RESULT=$?
+
+echo "RESULT pbuild386: $RESULT"
+
+exit $RESULT

@@ -32,7 +32,12 @@ done
 export OLDGNUPGHOME=${GNUPGHOME}
 export GNUPGHOME="/home/${BUILDER}/.gnupg"
 
-echo "Options: ${OPTIONS}"
+echo -e "Options: ${OPTIONS}"
 sudo -E pbuilder --build ${OPTIONS}
 
+RESULT=$?
+echo -e "\nBuildresult pbuild: $RESULT \n"
+
 export GNUPGHOME=${OLDGNUPGHOME}
+
+exit $RESULT

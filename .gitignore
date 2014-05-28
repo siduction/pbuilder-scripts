@@ -1,2 +1,5 @@
-debian/files
-debian/pbuilder-scripts/
+/debian/files
+/debian/pbuilder-scripts/
+ debian/pbuilder-scripts.debhelper.log
+/debian/pbuilder-scripts.substvars
+/version

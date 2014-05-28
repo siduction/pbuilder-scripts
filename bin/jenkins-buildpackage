@@ -1,54 +1,47 @@
 #!/bin/bash
-
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
-
 
 ## usage
 usage()
 {
 cat << EOF
+jenkins-buildpackage
 usage: $0 options
 
-#ToDo Write some useful description
 
 OPTIONS:
    -h      Show this message
    -a      Architecture, should be 'i386' or 'amd64'
-   -r      Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext  
+   -r      Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext
    -d      Distribution: unstable, next, experimental, sid
+   -x      Delete file for failed builds
    -V      Version
-
 EOF
 }
 
-
 ## version
 version() {
-    echo "$0: 0.10"
+    . /usr/share/pbuilder-scripts/version
+    echo "$(basename $0): ${VERSION}"
 }
-
 
 ## get basic configuration form /etc/jenkins
 if [ -f /etc/jenkins/jenkins-buildpackage.conf ]; then
-    echo "Configuration: /etc/jenkins/jenkins-buildpackage.conf used"
+    echo -e "Configuration: /etc/jenkins/jenkins-buildpackage.conf used"
     . /etc/jenkins/jenkins-buildpackage.conf
 fi
 
 ## get user conf
 if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
-    echo "Configuration: ${HOME}/.config/jenkins-buildpackage.conf  used"
+    echo -e "Configuration: ${HOME}/.config/jenkins-buildpackage.conf  used"
     . ${HOME}/.config/jenkins/jenkins-builpackage.conf
 fi
 
-
-
 ## option handling
-
-while getopts “a:r:d:Vh” OPTION; do
+while getopts “a:r:d:Vhx” OPTION; do
      case ${OPTION} in
          a)
              ARCH=${OPTARG}
-             echo "yeah fucking $ARCH ::: ${OPTARG} "
              ;;
          r)
              REPO=${OPTARG}
@@ -60,6 +53,10 @@ while getopts “a:r:d:Vh” OPTION; do
              usage
              exit 0
              ;;
+         x)
+             delete-failed
+             exit 0
+             ;;
          V)
              version
              exit 0
@@ -67,29 +64,25 @@ while getopts “a:r:d:Vh” OPTION; do
      esac
 done
 
-
-# really dirty - serverside base is defined absolutely fugly 
+# really dirty - serverside base is defined fugly as can be for now
 REPOBASE="/var/www/virtual/packages/${REPO}"
 BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
 
-
 ## is_valid_line
 is_valid_line() {
-    [[ ! -e ./build_failed ]] && touch ./build_failed
-    grep "$REPOLINE" ./build_failed
+    [[ ! -e ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
     RESULT=$?
-    echo "RESULT: $RESULT"
     case $RESULT in
         1)
-             echo "Valid line: $REPOLINE\n\n"
+             echo -e "Valid: $REPOLINE"
         ;;
         0)
-             echo "Faulty line: $REPOLINE\n\n"
+             echo -e "Faulty: $REPOLINE"
         ;;
     esac
     return $RESULT
 }
-
 
 ## sub split repo_line
 split_repo_line() {
@@ -113,43 +106,44 @@ get_source_package() {
 
 ## build_source_package
 build_source_package() {
-   echo "\n -- jetzt könnte gebaut werden -- \n"
    pushd $SOURCEDIR
    pbuild -a $ARCH -r $DISTRI  $BUILD_DSC
    RESULT=$?
+   echo -e "build_source_package Result: ${RESULT}"
    popd
    if [[ $RESULT -ne "0" ]]; then
-       echo "$REPOLINE" >>  build_failed
+       echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+       cat ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
    else
-       rm -f $SOURCEDIR
+       rm -rf ${SOURCEDIR}
    fi
 }
 
 ## upload_package
 upload_package() {
     pushd $BUILDTARGET
-    echo "REPO: x${REPO}x"
     dput  $REPO ${UPLOADFILES}changes
     rm $UPLOADFILES
     popd
 }
 
+## delete failed builds file
+delete_failed() {
+    rm -f  ${SOUREPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+}
 
-###debug
-echo "debug1"
-echo "ssh ${USER}@${HOST} cd ${REPOBASE}; reprepro build-needing $DISTRI  $ARCH"
-echo ""
-
+## Main
+echo "sourcepath: ${SOURCEPATH}"
+[[ ! -d ${SOURCEPATH} ]] && mkdir -p ${SOURCEPATH}
 IFS=$'\n'
 for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing $DISTRI  $ARCH"); do
     REPOLINE=$i
-    echo "$REPOLINE --- \n"
     is_valid_line
     [[ "$?" -ne "1" ]] && continue
     split_repo_line
     get_source_package
     build_source_package
-    echo "buildresult: $?" 
+    echo "main buildresult: $?"
     upload_package
    break
 done

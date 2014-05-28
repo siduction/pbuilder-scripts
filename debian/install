@@ -2,3 +2,4 @@ bin            usr
 hooks          var/cache/pbuilder
 etc            
 set_pbuilder   usr/share/pbuilder-scripts
+version        usr/share/pbuilder-scripts
