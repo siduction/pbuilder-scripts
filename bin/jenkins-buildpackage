@@ -113,7 +113,9 @@ build_source_package() {
    popd
    if [[ $RESULT -ne "0" ]]; then
        echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
-       cat ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+       ##say
+       echo -e "added ${REPOLINE} to failed builds for ${REPO}, ${DISTRI} and ${ARCH} \n"
+       ## say
    else
        rm -rf ${SOURCEDIR}
    fi

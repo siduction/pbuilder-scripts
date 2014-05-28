@@ -8,7 +8,7 @@ if [ -f /etc/pbuilderrc ]; then
   . /etc/pbuilderrc
 fi
 
-if [ -f "$HOME/.pbuilderrc" ]; then
+if [ -f "${HOME}/.pbuilderrc" ]; then
   echo "user configuration $HOME/.pbuilderrc loaded"
   . $HOME/.pbuilderrc
 fi
@@ -20,8 +20,6 @@ if [ -f $DIR/.pbuilderrc ]; then
     . $DIR/.pbuilderrc
   fi 
 fi
-
-
 
 ## devscripts
 

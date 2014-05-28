@@ -2,7 +2,7 @@ pbuilder-scripts (0.12) next; urgency=medium
 
   * some improvements for jenkins-* 
 
- -- Alf Gaida <agaida@siduction.org>  Wed, 28 May 2014 18:56:41 +0200
+ -- Alf Gaida <agaida@siduction.org>  Thu, 29 May 2014 00:27:50 +0200
 
 pbuilder-scripts (0.11) next; urgency=medium
 
