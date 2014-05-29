@@ -83,74 +83,14 @@ is_valid_line() {
     return $RESULT
 }
 
-## sub split repo_line
-split_repo_line() {
-    PACKAGE_NAME=$(echo $REPOLINE | awk -F' ' '{ print $1 }')
-    PACKAGE_VER=$(echo $REPOLINE | awk -F' ' '{ print $2 }')
-    PACKAGE_DSC=$(echo $REPOLINE | awk -F' ' '{ print $3 }')
-    PACKAGE_FILES=$(echo $PACKAGE_DSC | sed 's/\.dsc/*/')
-    SOURCEDIR=$SOURCEPATH/$PACKAGE_NAME-$PACKAGE_VER
-    BUILD_DSC=$(basename $PACKAGE_DSC)
-    UPLOADFILES=$(basename $PACKAGE_FILES)
-}
-
-## get_source_package
-get_source_package() {
-    [[ -d $SOURCEDIR ]] && rm -rv $SOURCEDIR
-    mkdir -p $SOURCEDIR
-    pushd $SOURCEDIR
-    scp  ${USER}@${HOST}:$REPOBASE/$PACKAGE_FILES .
-    popd
-}
-
-## build_source_package
-build_source_package() {
-   pushd $SOURCEDIR
-   pbuild -a $ARCH -r $DISTRI  $BUILD_DSC
-   RESULT=$?
-   echo -e "build_source_package Result: ${RESULT}"
-   popd
-   if [[ $RESULT -ne "0" ]]; then
-       echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
-       ##say
-       echo -e "added ${REPOLINE} to failed builds for ${REPO}, ${DISTRI} and ${ARCH} \n"
-       ## say
-   else
-       rm -rf ${SOURCEDIR}
-   fi
-}
-
-## sign_builded_packages
-sign_builded_packages() {
-    debsign -k 53CD5927 $REPO ${UPLOADFILES}changes
-}
-
-## upload_package
-upload_package() {
-    pushd $BUILDTARGET
-    dput  $REPO ${UPLOADFILES}changes
-    rm $UPLOADFILES
-    popd
-}
-
-## delete failed builds file
-delete_failed() {
-    rm -fv  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
-}
-
 ## Main
-[ "${DELETE_FAILED}" = "true" ] && delete_failed && exit 0
 [ ! -d ${SOURCEPATH} ] && mkdir -p ${SOURCEPATH} && echo ${SOURCEPATH}
 IFS=$'\n'
-for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing $DISTRI  $ARCH"); do
-    REPOLINE=$i
-    is_valid_line
-    [ "$?" -ne "1" ] && continue
-    split_repo_line
-    get_source_package
-    build_source_package
-    sign_builded_packages
-    echo "main buildresult: $?"
-    upload_package
-   break
-done
+
+
+
+
+## for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing $DISTRI  $ARCH"); do
+##    REPOLINE=$i
+##    is_valid_line
+## done

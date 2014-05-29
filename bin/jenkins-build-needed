@@ -1,0 +1,82 @@
+#!/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+## usage
+usage()
+{
+cat << EOF
+jenkins-buildpackage
+usage: $0 options
+
+
+OPTIONS:
+   -h      Show this message
+   -a      Architecture, should be 'i386' or 'amd64'
+   -r      Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext
+   -d      Distribution: unstable, next, experimental, sid
+   -x      Delete file for failed builds
+   -V      Version
+EOF
+}
+
+REPOS="base extra lxqt razorqt"
+DISTRIBUTIONS="unstable next experimental"
+ARCHS="amd64 i386"
+
+
+## version
+version() {
+    . /usr/share/pbuilder-scripts/version
+    echo "$(basename $0): ${VERSION}"
+}
+
+## get basic configuration form /etc/jenkins
+if [ -f /etc/jenkins/jenkins-buildpackage.conf ]; then
+#    echo -e "Configuration: /etc/jenkins/jenkins-buildpackage.conf used"
+    . /etc/jenkins/jenkins-buildpackage.conf
+fi
+
+## get user conf
+if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
+#    echo -e "Configuration: ${HOME}/.config/jenkins-buildpackage.conf  used"
+    . ${HOME}/.config/jenkins/jenkins-builpackage.conf
+fi
+
+
+# really dirty - serverside base is defined fugly as can be for now
+REPOBASE="/var/www/virtual/packages/${REPO}"
+BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
+
+## is_valid_line
+is_valid_line() {
+    [[ ! -e ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH} &>/dev/null
+    RESULT=$?
+    case $RESULT in
+        1)
+             touch ${SOURCEPATH}/needed-${REPO}-${DISTRI}-${ARCH}
+        ;;
+    esac
+    return $RESULT
+}
+
+
+## Main
+[ ! -d ${SOURCEPATH} ] && mkdir -p ${SOURCEPATH} && echo ${SOURCEPATH}
+
+for i in ${REPOS}; do
+    for k in ${DISTRIBUTIONS}; do 
+        for l in ${ARCHS}; do
+            REPOBASE="/var/www/virtual/packages/${i}"
+            IFS=$'\n'
+            for m in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing ${k}  ${l}"); do
+                REPOLINE=$m
+                REPO=${i}
+                DISTRI=${k}
+                ARCH=${l}
+                is_valid_line
+            done
+            unset IFS
+        done
+    done
+done
