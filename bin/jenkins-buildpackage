@@ -54,8 +54,7 @@ while getopts “a:r:d:Vhx” OPTION; do
              exit 0
              ;;
          x)
-             delete-failed
-             exit 0
+             DELETE_FAILED="true"
              ;;
          V)
              version
@@ -131,11 +130,11 @@ upload_package() {
 
 ## delete failed builds file
 delete_failed() {
-    rm -f  ${SOUREPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+    rm -fv  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
 }
 
 ## Main
-echo "sourcepath: ${SOURCEPATH}"
+[[ $DELETE_FAILED -eq "true" ]] && delete_failed && exit 0
 [[ ! -d ${SOURCEPATH} ]] && mkdir -p ${SOURCEPATH}
 IFS=$'\n'
 for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing $DISTRI  $ARCH"); do
@@ -149,4 +148,3 @@ for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing $DISTRI 
     upload_package
    break
 done
-

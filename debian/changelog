@@ -1,3 +1,9 @@
+pbuilder-scripts (0.13) unstable; urgency=medium
+
+  * remove failed build files implemented
+
+ -- Alf Gaida <agaida@siduction.org>  Thu, 29 May 2014 16:19:29 +0200
+
 pbuilder-scripts (0.12) next; urgency=medium
 
   * some improvements for jenkins-* 
