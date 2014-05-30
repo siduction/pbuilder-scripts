@@ -54,7 +54,9 @@ is_valid_line() {
     RESULT=$?
     case $RESULT in
         1)
-             touch ${SOURCEPATH}/needed-${REPO}-${DISTRI}-${ARCH}
+             if [ ! -f ${SOURCEPATH}/needed-${REPO}-${DISTRI}-${ARCH} ]; then
+                 echo ${REPOLINE} > ${SOURCEPATH}/needed-${REPO}-${DISTRI}-${ARCH}
+             fi
         ;;
     esac
     return $RESULT

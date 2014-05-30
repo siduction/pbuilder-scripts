@@ -67,6 +67,7 @@ done
 REPOBASE="/var/www/virtual/packages/${REPO}"
 BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
 
+
 ## is_valid_line
 is_valid_line() {
     [[ ! -e ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
@@ -82,6 +83,7 @@ is_valid_line() {
     esac
     return $RESULT
 }
+
 
 ## sub split repo_line
 split_repo_line() {
@@ -110,11 +112,11 @@ build_source_package() {
    RESULT=$?
    echo -e "build_source_package Result: ${RESULT}"
    popd
-   if [[ $RESULT -ne "0" ]]; then
-       echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
-       ##say
-       echo -e "added ${REPOLINE} to failed builds for ${REPO}, ${DISTRI} and ${ARCH} \n"
-       ## say
+   if [ $RESULT -ne "0" ]; then
+       if [ $FAILED != "true" then
+          write_failed
+          FAILED="true"
+       fi
    else
        rm -rf ${SOURCEDIR}
    fi
@@ -122,13 +124,30 @@ build_source_package() {
 
 ## sign_builded_packages
 sign_builded_packages() {
-    debsign -k 53CD5927 $REPO ${UPLOADFILES}changes
+    debsign -k 53CD5927 ${BUILDTARGET}/${UPLOADFILES}changes
+    RESULT=$?
+    echo -e "sign_package Result: ${RESULT}"
+    if [ $RESULT -ne "0" ]; then
+       if [ $FAILED != "true" then
+          write_failed
+          FAILED="true"
+       fi
+    fi
 }
 
 ## upload_package
 upload_package() {
     pushd $BUILDTARGET
     dput  $REPO ${UPLOADFILES}changes
+    RESULT=$?
+    echo -e "upload_package Result: ${RESULT}"
+    if [ $RESULT -ne "0" ]; then
+       if [ $FAILED != "true" then
+          write_failed
+          FAILED="true"
+       fi
+    fi
+
     rm $UPLOADFILES
     popd
 }
@@ -137,6 +156,15 @@ upload_package() {
 delete_failed() {
     rm -fv  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
 }
+
+
+## write_failed
+write_failed() {
+   echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+   echo -e "added ${REPOLINE} to failed builds for ${REPO}, ${DISTRI} and ${ARCH} \n"
+}
+
+
 
 ## Main
 [ "${DELETE_FAILED}" = "true" ] && delete_failed && exit 0
@@ -148,6 +176,7 @@ for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing $DISTRI 
     [ "$?" -ne "1" ] && continue
     split_repo_line
     get_source_package
+    FAILED=""
     build_source_package
     sign_builded_packages
     echo "main buildresult: $?"

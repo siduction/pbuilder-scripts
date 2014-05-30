@@ -1,3 +1,9 @@
+pbuilder-scripts (0.16) unstable; urgency=medium
+
+  * jenkins stuff improved 
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 31 May 2014 01:05:41 +0200
+
 pbuilder-scripts (0.15) unstable; urgency=medium
 
   * jenkins-build-needed and jenkis-worker added

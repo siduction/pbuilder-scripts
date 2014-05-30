@@ -52,17 +52,15 @@ split_needs() {
   echo "ARCH: $ARCH"
 }
 
-
-
-
 ## Main
 for i in ${SOURCEPATH}/needed* ; do
    if [ -f ${i} ]; then
        split_needs
        rm ${i}
        jenkins-buildpackage -r ${REPO} -d ${DISTRI} -a ${ARCH}
+       RESULT=$?
        break
    fi
 done
 jenkins-build-needed
-
+exit $RESULT
