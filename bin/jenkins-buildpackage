@@ -8,14 +8,13 @@ cat << EOF
 jenkins-buildpackage
 usage: $0 options
 
-
 OPTIONS:
-   -h      Show this message
-   -a      Architecture, should be 'i386' or 'amd64'
-   -r      Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext
-   -d      Distribution: unstable, next, experimental, sid
-   -x      Delete file for failed builds
-   -V      Version
+    -h  Show this message
+    -a  Architecture, should be 'i386' or 'amd64'
+    -r  Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext
+    -d  Distribution: unstable, next, experimental, sid
+    -x  Delete file for failed builds
+    -V  Version
 EOF
 }
 
@@ -39,33 +38,32 @@ fi
 
 ## option handling
 while getopts “a:r:d:Vhx” OPTION; do
-     case ${OPTION} in
-         a)
-             ARCH=${OPTARG}
-             ;;
-         r)
-             REPO=${OPTARG}
-             ;;
-         d)
-             DISTRI=${OPTARG}
-             ;;
-         h)
-             usage
-             exit 0
-             ;;
-         x)
-             DELETE_FAILED="true"
-             ;;
-         V)
-             version
-             exit 0
-             ;;
+    case ${OPTION} in
+        a)
+            ARCH=${OPTARG}
+            ;;
+        r)
+            REPO=${OPTARG}
+            ;;
+        d)
+            DISTRI=${OPTARG}
+            ;;
+        h)
+            usage
+            exit 0
+            ;;
+        x)
+            DELETE_FAILED="true"
+            ;;
+        V)
+            version
+            exit 0
+            ;;
      esac
 done
 
 # really dirty - serverside base is defined fugly as can be for now
 REPOBASE="/var/www/virtual/packages/${REPO}"
-BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
 
 
 ## is_valid_line
@@ -75,11 +73,11 @@ is_valid_line() {
     RESULT=$?
     case $RESULT in
         1)
-             echo -e "Valid: $REPOLINE"
-        ;;
+            echo -e "Valid: $REPOLINE"
+            ;;
         0)
-             echo -e "Faulty: $REPOLINE"
-        ;;
+            echo -e "Faulty: $REPOLINE"
+            ;;
     esac
     return $RESULT
 }
@@ -107,33 +105,45 @@ get_source_package() {
 
 ## build_source_package
 build_source_package() {
-   pushd $SOURCEDIR
-   pbuild -a $ARCH -r $DISTRI  $BUILD_DSC
-   RESULT=$?
-   echo -e "build_source_package Result: ${RESULT}"
-   popd
-   if [ $RESULT -ne "0" ]; then
-       if [ $FAILED != "true" then
-          write_failed
-          FAILED="true"
-       fi
-   else
-       rm -rf ${SOURCEDIR}
-   fi
+    pushd $SOURCEDIR
+    case $ARCH in
+        all)
+            BUILDARCH='amd64'
+            ;;
+        *)
+            BUILDARCH=$ARCH
+            ;;
+    esac
+    BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${BUILDARCH}/result"
+    pbuild -a $BUILDARCH -r $DISTRI  $BUILD_DSC
+    RESULT=$?
+    echo -e "build_source_package Result: ${RESULT}"
+    popd
+    if [ $RESULT -ne "0" ]; then
+        if [ "${FAILED}" != "true" ]; then
+            write_failed
+           FAILED="true"
+        fi
+    else
+        rm -rf ${SOURCEDIR}
+    fi
 }
 
 ## sign_builded_packages
-sign_builded_packages() {
-    debsign -k 53CD5927 ${BUILDTARGET}/${UPLOADFILES}changes
-    RESULT=$?
-    echo -e "sign_package Result: ${RESULT}"
-    if [ $RESULT -ne "0" ]; then
-       if [ $FAILED != "true" then
-          write_failed
-          FAILED="true"
-       fi
-    fi
-}
+#sign_builded_packages() {
+#    echo "DEBUG:  ${BUILDTARGET}/${UPLOADFILES}changes"
+#    ls  ${BUILDTARGET}/${UPLOADFILES}changes
+#    echo "DEBUG end"
+#    debsign -k 53CD5927 ${BUILDTARGET}/${UPLOADFILES}changes
+#    RESULT=$?
+#    echo -e "sign_package Result: ${RESULT}"
+#    if [ $RESULT -ne "0" ]; then
+#        if [ "${FAILED}" != "true" ]; then
+#            write_failed
+#            FAILED="true"
+#        fi
+#    fi
+#}
 
 ## upload_package
 upload_package() {
@@ -142,10 +152,10 @@ upload_package() {
     RESULT=$?
     echo -e "upload_package Result: ${RESULT}"
     if [ $RESULT -ne "0" ]; then
-       if [ $FAILED != "true" then
-          write_failed
-          FAILED="true"
-       fi
+        if [ "${FAILED}" != "true" ]; then
+            write_failed
+            FAILED="true"
+        fi
     fi
 
     rm $UPLOADFILES
@@ -157,14 +167,11 @@ delete_failed() {
     rm -fv  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
 }
 
-
 ## write_failed
 write_failed() {
-   echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
-   echo -e "added ${REPOLINE} to failed builds for ${REPO}, ${DISTRI} and ${ARCH} \n"
+    echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+    echo -e "added ${REPOLINE} to failed builds for ${REPO}, ${DISTRI} and ${ARCH} \n"
 }
-
-
 
 ## Main
 [ "${DELETE_FAILED}" = "true" ] && delete_failed && exit 0
@@ -178,8 +185,11 @@ for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing $DISTRI 
     get_source_package
     FAILED=""
     build_source_package
-    sign_builded_packages
-    echo "main buildresult: $?"
-    upload_package
-   break
+    if [ ${RESULT} -eq "0" ]; then
+        upload_package
+    fi
+    break
 done
+
+echo -e "main buildresult: ${RESULT}"
+exit ${RESULT}

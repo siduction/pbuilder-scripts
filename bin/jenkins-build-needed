@@ -21,7 +21,7 @@ EOF
 
 REPOS="base extra lxqt razorqt"
 DISTRIBUTIONS="unstable next experimental"
-ARCHS="amd64 i386"
+ARCHS="amd64 i386 all"
 
 
 ## version
