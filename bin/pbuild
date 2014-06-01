@@ -2,55 +2,43 @@
 #
 # pbuild
 #
-# © 2011-2013 Alf Gaida <agaida@siduction.org>
+# © 2011-2014 Alf Gaida <agaida@siduction.org>
 #
 export ARCH="amd64"
-export DIST="unstable"
 export RELEASE="unstable"
+export REPOSITORY="extra"
 OPTIONS="${@}"
+DSCFILE=$*
+PACKAGEFILES=$(echo $DSCFILE | sed 's/\.dsc/*/')
+CHANGESFILE=${PACKAGEFILES}changes
 
 ## usage
-usage()
-{
+usage() {
 cat << EOF
 jenkins-buildpackage
 usage: $0 options
 
 OPTIONS:
     -h  Show this message
-    -a  Architecture, should be 'i386', 'amd64' or 'all'
+    -a  Architecture, should be 'i386', 'amd64'
     -d  Distribution: unstable, next, experimental
     -r  Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext
     -V  Version
 EOF
 }
 
-## sign_builded_packages
-sign_builded_packages() {
-    echo "DEBUG:  ${BUILDTARGET}/${UPLOADFILES}changes"
-    ls  ${BUILDTARGET}/${UPLOADFILES}changes
-    echo "DEBUG end"
-    debsign -k 53CD5927 ${BUILDTARGET}/${UPLOADFILES}changes
-    RESULT=$?
-    echo -e "sign_package Result: ${RESULT}"
-    if [ $RESULT -ne "0" ]; then
-        if [ "${FAILED}" != "true" ]; then
-            write_failed
-            FAILED="true"
-        fi
-    fi
-}
-
-while getopts “a:r:t:h” OPTION; do
+while getopts “a:d:r:h” OPTION; do
      case ${OPTION} in
          a)
              export ARCH=${OPTARG}
+             OPTIONS=$(echo ${OPTIONS} | sed -e "s/\-a//" -e "s/${OPTARG}//")
              ;;
-         d)
-             export DIST=${OPTARG}
+         d)  export DIST=${OPTARG}
+             OPTIONS=$(echo ${OPTIONS} | sed -e "s/\-d//" -e "s/${OPTARG}//")
              ;;
          r)
              export REPOSITORY=${OPTARG}
+             OPTIONS=$(echo ${OPTIONS} | sed -e "s/\-r//" -e "s/${OPTARG}//")
              ;;
          h)
              usage
@@ -59,14 +47,43 @@ while getopts “a:r:t:h” OPTION; do
      esac
 done
 
-OPTIONS=$(echo ${OPTIONS} | sed -e "s/\-r//" -e "s/${OPTARG}//")
+
+## sign_builded_packages
+sign_builded_packages() {
+    echo -e "\nDEBUG:  ${BUILDRESULT}/${CHANGESFILE}"
+    ls  ${BUILDRESULT}/${CHANGESFILE}
+    echo -e "DEBUG end\n"
+    debsign -k ${DEBSIGN_KEYID} ${BUILDRESULT}/${CHANGESFILE}
+    RESULT=$?
+    echo -e "sign_package Result: ${RESULT} \n"
+    if [ $RESULT -ne "0" ]; then
+        if [ "${FAILED}" != "true" ]; then
+            write_failed
+            FAILED="true"
+        fi
+    fi
+}
+
 . /usr/share/pbuilder-scripts/set_pbuilder
 
-echo -e "Options: ${OPTIONS}"
+echo -e "\n"
+echo -e "pbuild"
+echo -e "Architectiure: $ARCH"
+echo -e "Distibution:   $DIST"
+echo -e "Release:       $RELEASE"
+echo -e "Repository:    $REPOSITORY"
+echo -e "Buildresult    $BUILDRESULT"
+echo -e "DSC-File  :    $DSCFILE"
+echo -e "Changes-File:  $CHANGESFILE"
+echo -e "KEY:           $DEBSIGN_KEYID"
+echo -e "\n"
+
 sudo -E pbuilder --build ${OPTIONS}
 RESULT=$?
-
-# signing
-
-echo -e "\nBuildresult pbuild: $RESULT \n"
+if [ $RESULT -eq "0" ]; then
+    sign_builded_packages
+    RESULT=$?
+fi
+echo -e "Buildresult pbuild: $RESULT"
 exit $RESULT
+
