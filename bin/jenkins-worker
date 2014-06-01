@@ -39,7 +39,7 @@ fi
 
 
 # really dirty - serverside base is defined fugly as can be for now
-REPOBASE="/var/www/virtual/packages/${REPO}"
+REPOBASE="/var/www/virtual/packages/${REPOSITORY}"
 BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
 
 ## split_needs
@@ -48,15 +48,15 @@ split_needs() {
   LINE=$(cat ${i})
   PACKAGE=$(echo $LINE | awk -F' ' '{ print $1 }')
   VERSION=$(echo $LINE | awk -F' ' '{ print $2 }')
-  REPO=$(echo ${i} | awk -F'-' '{ print $2 }')
+  REPOSITORY=$(echo ${i} | awk -F'-' '{ print $2 }')
   DISTRI=$(echo ${i} | awk -F'-' '{ print $3 }')
   ARCH=$(echo ${i} | awk -F'-' '{ print $4 }')
   echo -e "\n\n"
-  echo -e "PACKAGE: $PACKAGE"
-  echo -e "VERSION: $VERSION"
-  echo -e "REPO:    $REPO"
-  echo -e "DISTRI:  $DISTRI"
-  echo -e "ARCH:    $ARCH"
+  echo -e "PACKAGE:     $PACKAGE"
+  echo -e "VERSION:     $VERSION"
+  echo -e "REPOSITORY:  $REPOSITORY"
+  echo -e "DISTRI:      $DISTRI"
+  echo -e "ARCH:        $ARCH"
   echo -e "\n\n"
 }
 
@@ -65,7 +65,7 @@ for i in ${SOURCEPATH}/needed* ; do
    if [ -f ${i} ]; then
        split_needs
        rm ${i}
-       jenkins-buildpackage -r ${REPO} -d ${DISTRI} -a ${ARCH}
+       jenkins-buildpackage -r ${REPOSITORY} -d ${DISTRI} -a ${ARCH}
        RESULT=$?
        break
    fi

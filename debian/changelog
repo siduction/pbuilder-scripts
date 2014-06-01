@@ -1,3 +1,10 @@
+pbuilder-scripts (0.19) unstable; urgency=medium
+
+  * fix get-source
+  * some fine tuninig 
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 01 Jun 2014 19:32:23 +0200
+
 pbuilder-scripts (0.18) unstable; urgency=medium
 
   * pbuilderrc and pbuild modified for native and siduction builds 

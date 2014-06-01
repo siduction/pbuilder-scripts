@@ -43,7 +43,7 @@ while getopts “a:r:d:Vhx” OPTION; do
             ARCH=${OPTARG}
             ;;
         r)
-            REPO=${OPTARG}
+            REPOSITORY=${OPTARG}
             ;;
         d)
             DISTRI=${OPTARG}
@@ -63,13 +63,13 @@ while getopts “a:r:d:Vhx” OPTION; do
 done
 
 # really dirty - serverside base is defined fugly as can be for now
-REPOBASE="/var/www/virtual/packages/${REPO}"
+REPOBASE="/var/www/virtual/packages/${REPOSITORY}"
 
 
 ## is_valid_line
 is_valid_line() {
-    [[ ! -e ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
-    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+    [[ ! -e ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
+    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
     RESULT=$?
     case $RESULT in
         1)
@@ -96,10 +96,13 @@ split_repo_line() {
 
 ## get_source_package
 get_source_package() {
-    [[ -d $SOURCEDIR ]] && rm -rv $SOURCEDIR
-    mkdir -p $SOURCEDIR
-    pushd $SOURCEDIR
-    scp  ${USER}@${HOST}:$REPOBASE/$PACKAGE_FILES .
+    [[ -d ${SOURCEDIR} ]] && rm -rv ${SOURCEDIR}
+    mkdir -p ${SOURCEDIR}
+    pushd ${SOURCEDIR}
+    echo "HOST:         $HOST"
+    echo "REPOLINE:     $REPOLINE"
+    echo "PACKAGE_DSC:  $PACKAGE_DSC"
+    dget -d ${PROTOCOL}${HOST}/${REPOSITORY}/${PACKAGE_DSC}
     popd
 }
 
@@ -129,26 +132,10 @@ build_source_package() {
     fi
 }
 
-## sign_builded_packages
-#sign_builded_packages() {
-#    echo "DEBUG:  ${BUILDTARGET}/${UPLOADFILES}changes"
-#    ls  ${BUILDTARGET}/${UPLOADFILES}changes
-#    echo "DEBUG end"
-#    debsign -k 53CD5927 ${BUILDTARGET}/${UPLOADFILES}changes
-#    RESULT=$?
-#    echo -e "sign_package Result: ${RESULT}"
-#    if [ $RESULT -ne "0" ]; then
-#        if [ "${FAILED}" != "true" ]; then
-#            write_failed
-#            FAILED="true"
-#        fi
-#    fi
-#}
-
 ## upload_package
 upload_package() {
     pushd $BUILDTARGET
-    dput  $REPO ${UPLOADFILES}changes
+    dput  $REPOSITORY ${UPLOADFILES}changes
     RESULT=$?
     echo -e "upload_package Result: ${RESULT}"
     if [ $RESULT -ne "0" ]; then
@@ -157,20 +144,20 @@ upload_package() {
             FAILED="true"
         fi
     fi
-
-    rm $UPLOADFILES
+    echo -e "---- Upload Dir: Cleanup ----"
+    rm -fv $UPLOADFILES
     popd
 }
 
 ## delete failed builds file
 delete_failed() {
-    rm -fv  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
+    rm -fv  ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
 }
 
 ## write_failed
 write_failed() {
-    echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
-    echo -e "added ${REPOLINE} to failed builds for ${REPO}, ${DISTRI} and ${ARCH} \n"
+    echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
+    echo -e "added ${REPOLINE} to failed builds for ${REPOSITORY}, ${DISTRI} and ${ARCH} \n"
 }
 
 ## Main
