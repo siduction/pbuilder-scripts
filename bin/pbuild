@@ -8,9 +8,6 @@ export ARCH="amd64"
 export RELEASE="unstable"
 export REPOSITORY="extra"
 OPTIONS="${@}"
-DSCFILE=$*
-PACKAGEFILES=$(echo $DSCFILE | sed 's/\.dsc/*/')
-CHANGESFILE=${PACKAGEFILES}changes
 
 ## usage
 usage() {
@@ -46,6 +43,10 @@ while getopts “a:d:r:h” OPTION; do
              ;;
      esac
 done
+
+DSCFILE=${OPTIONS}
+PACKAGEFILES=$(echo $DSCFILE | sed 's/\.dsc/*/')
+CHANGESFILE=${PACKAGEFILES}.changes
 
 
 ## sign_builded_packages
