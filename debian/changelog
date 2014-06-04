@@ -1,3 +1,11 @@
+pbuilder-scripts (0.22) unstable; urgency=medium
+
+  * get rid of "RELEASE"
+  * some consistent naming of variable
+  * consistent usage of options
+
+ -- Alf Gaida <agaida@siduction.org>  Wed, 04 Jun 2014 19:06:24 +0200
+
 pbuilder-scripts (0.21) unstable; urgency=medium
 
   * small typos
