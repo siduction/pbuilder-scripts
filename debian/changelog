@@ -1,3 +1,9 @@
+pbuilder-scripts (0.23) unstable; urgency=medium
+
+  * upload work now right
+
+ -- Alf Gaida <agaida@siduction.org>  Wed, 04 Jun 2014 21:45:08 +0200
+
 pbuilder-scripts (0.22) unstable; urgency=medium
 
   * get rid of "RELEASE"

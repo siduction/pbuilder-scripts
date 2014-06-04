@@ -39,14 +39,14 @@ fi
 ## option handling
 while getopts “a:r:d:Vhx” OPTION; do
     case ${OPTION} in
-        a)
-            ARCH=${OPTARG}
-            ;;
         r)
             REPOSITORY=${OPTARG}
             ;;
         d)
             DISTRIBUTION=${OPTARG}
+            ;;
+        a)
+            ARCH=${OPTARG}
             ;;
         h)
             usage
@@ -117,15 +117,15 @@ build_source_package() {
             BUILDARCH=${ARCH}
             ;;
     esac
-    BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${BUILDARCH}/result"
-    pbuild -a ${BUILDARCH} -r ${DISTRIBUTION}  ${BUILD_DSC}
+    BUILDTARGET="/var/cache/pbuilder/${DISTRIBUTION}-${BUILDARCH}/result"
+    pbuild -r ${REPOSITORY} -d ${DISTRIBUTION} -a ${BUILDARCH}  ${BUILD_DSC}
     RESULT=$?
     echo -e "build_source_package Result: ${RESULT}"
     popd
     if [ "${RESULT}" -ne "0" ]; then
         if [ "${FAILED}" != "true" ]; then
             write_failed
-           FAILED="true"
+            FAILED="true"
         fi
     else
         rm -rf ${SOURCEDIR}
@@ -134,19 +134,30 @@ build_source_package() {
 
 ## upload_package
 upload_package() {
+    if [ -e /tmp/dput-post-upload-error ]; then
+        rm -f /tmp/dput-post-upload-error
+    fi
     pushd ${BUILDTARGET}
     dput  ${REPOSITORY} ${UPLOADFILES}changes
     RESULT=$?
-    echo -e "upload_package Result: ${RESULT}"
     if [ "${RESULT}" -ne "0" ]; then
         if [ "${FAILED}" != "true" ]; then
             write_failed
             FAILED="true"
         fi
     fi
+    if [ "${FAILED}" != "true" ]; then
+        if [ -e /tmp/dput-post-upload-error ]; then
+            rm -f /tmp/dput-post-upload-error
+            write_failed
+            FAILED="true"
+            RESULT=1
+        fi
+    fi
     echo -e "---- Upload Dir: Cleanup ----"
     rm -fv ${UPLOADFILES}
     popd
+    echo -e "upload_package Result: ${RESULT}"
 }
 
 ## delete failed builds file

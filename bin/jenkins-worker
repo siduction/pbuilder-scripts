@@ -1,24 +1,6 @@
 #!/bin/bash
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
-## usage
-usage()
-{
-cat << EOF
-jenkins-buildpackage
-usage: $0 options
-
-
-OPTIONS:
-   -h      Show this message
-   -r      Repository: base, fixes, extra, kdenext, lxqt, xfcenext
-   -d      Distribution: unstable, next, experimental, sid
-   -a      Architecture, should be 'i386' or 'amd64'
-   -x      Delete file for failed builds
-   -V      Version
-EOF
-}
-
 ## version
 version() {
     . /usr/share/pbuilder-scripts/version
@@ -46,10 +28,10 @@ BUILDTARGET="/var/cache/pbuilder/${DISTRIBUTION}-${ARCH}/result"
 split_needs() {
   ## which package
   LINE=$(cat ${i})
-  PACKAGE=$(echo ${LINE} | awk -F' ' '{ print $1 }')
-  VERSION=$(echo ${LINE} | awk -F' ' '{ print $2 }')
-  REPOSITORY=$(echo ${i} | awk -F'-' '{ print $2 }')
-  DISTRI=$(echo ${i} | awk -F'-' '{ print $3 }')
+  PACKAGE=$(echo ${LINE}   | awk -F' ' '{ print $1 }')
+  VERSION=$(echo ${LINE}   | awk -F' ' '{ print $2 }')
+  REPOSITORY=$(echo ${i}   | awk -F'-' '{ print $2 }')
+  DISTRIBUTION=$(echo ${i} | awk -F'-' '{ print $3 }')
   ARCH=$(echo ${i} | awk -F'-' '{ print $4 }')
   echo -e "\n"
   echo -e "PACKAGE:      ${PACKAGE}"
@@ -70,5 +52,4 @@ for i in ${SOURCEPATH}/needed* ; do
        break
    fi
 done
-jenkins-build-needed
 exit ${RESULT}
