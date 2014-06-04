@@ -11,15 +11,15 @@ usage: $0 options
 
 OPTIONS:
    -h      Show this message
-   -a      Architecture, should be 'i386' or 'amd64'
-   -r      Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext
+   -r      Repository: base, fixes, extra, kdenext, lxqt, xfcenext
    -d      Distribution: unstable, next, experimental, sid
+   -a      Architecture, should be 'i386' or 'amd64'
    -x      Delete file for failed builds
    -V      Version
 EOF
 }
 
-REPOS="base extra lxqt razorqt"
+REPOSITORIES="base extra fixes lxqt" #kdenext
 DISTRIBUTIONS="unstable next experimental"
 ARCHS="amd64 i386 all"
 
@@ -42,24 +42,23 @@ if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
     . ${HOME}/.config/jenkins/jenkins-builpackage.conf
 fi
 
-
 # really dirty - serverside base is defined fugly as can be for now
-REPOBASE="/var/www/virtual/packages/${REPO}"
-BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
+REPOBASE="/var/www/virtual/packages/${REPOSITORY}"
+BUILDTARGET="/var/cache/pbuilder/${DISTRIBUTION}-${ARCH}/result"
 
 ## is_valid_line
 is_valid_line() {
-    [[ ! -e ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH}
-    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPO}-${DISTRI}-${ARCH} &>/dev/null
+    [[ ! -e ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH}
+    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH} &>/dev/null
     RESULT=$?
-    case $RESULT in
+    case ${RESULT} in
         1)
-             if [ ! -f ${SOURCEPATH}/needed-${REPO}-${DISTRI}-${ARCH} ]; then
-                 echo ${REPOLINE} > ${SOURCEPATH}/needed-${REPO}-${DISTRI}-${ARCH}
+             if [ ! -f ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRIBUTION}-${ARCH} ]; then
+                 echo ${REPOLINE} > ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRIBUTION}-${ARCH}
              fi
         ;;
     esac
-    return $RESULT
+    return ${RESULT}
 }
 
 
@@ -73,8 +72,8 @@ for i in ${REPOS}; do
             IFS=$'\n'
             for m in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing ${k}  ${l}"); do
                 REPOLINE=$m
-                REPO=${i}
-                DISTRI=${k}
+                REPOSITORY=${i}
+                DISTRIBUTION=${k}
                 ARCH=${l}
                 is_valid_line
             done

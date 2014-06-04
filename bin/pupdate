@@ -2,20 +2,21 @@
 #
 # pupdate
 #
-# (c) 2011 - 2013 Alf Gaida <agaida@siduction.org>
+# © 2011 - 2014 Alf Gaida <agaida@siduction.org>
 
+export DISTRIBUTION="unstable"
 export ARCH="amd64"
-export DIST="unstable"
-export RELEASE="unstable"
-while getopts “a:r:s:h” OPTION; do
+
+
+while getopts “d:a:h” OPTION; do
      case ${OPTION} in
+         d)
+             DISTRIBUTION=${OPTARG}
+             export DISTRIBUTION
+             ;;
          a)
              ARCH=${OPTARG}
-             export $ARCH
-             ;;
-         r)
-             RELEASE=${OPTARG}
-             export $RELEASE
+             export ARCH
              ;;
          h)
              #usage
@@ -25,9 +26,6 @@ while getopts “a:r:s:h” OPTION; do
 done
 
 . /usr/share/pbuilder-scripts/set_pbuilder
-export OLDGNUPGHOME=${GNUPGHOME}
-export GNUPGHOME="/home/${BUILDER}/.gnupg"
 
 sudo -E pbuilder --update --override-config ${@}
 
-export GNUPGHOME=${OLDGNUPGHOME}

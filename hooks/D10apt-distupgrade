@@ -4,8 +4,8 @@
 # (c) 2011-2013 Alf Gaida <agaida@siduction.org>
 #
 
-echo "updating repositories"
+echo -e "updating repositories"
 apt-get update
-echo "upgrading chroot"
+echo -e "upgrading chroot"
 apt-get dist-upgrade --assume-yes
 

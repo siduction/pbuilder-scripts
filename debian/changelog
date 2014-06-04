@@ -1,8 +1,16 @@
+pbuilder-scripts (0.21) unstable; urgency=medium
+
+  * small typos
+
+ -- Alf Gaida <agaida@siduction.org>  Tue, 03 Jun 2014 23:57:39 +0200
+
 pbuilder-scripts (0.20) unstable; urgency=medium
 
   * fix pbuild options
+  * display repos
+  * change repo handling
 
- -- Alf Gaida <agaida@siduction.org>  Sun, 01 Jun 2014 20:41:18 +0200
+ -- Alf Gaida <agaida@siduction.org>  Tue, 03 Jun 2014 23:49:18 +0200
 
 pbuilder-scripts (0.19) unstable; urgency=medium
 

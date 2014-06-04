@@ -4,9 +4,11 @@
 #
 # (c) 2011-2013 Alf Gaida <agaida@siduction.org>
 #
+
+export REPOSITORY="extra"
+export DISTRIBUTION="unstable"
 export ARCH="amd64"
-export DIST="unstable"
-export RELEASE="unstable"
+
 while getopts “a:r:s:h” OPTION; do
      case ${OPTION} in
          a)
@@ -15,7 +17,7 @@ while getopts “a:r:s:h” OPTION; do
              ;;
          r)
              RELEASE=${OPTARG}
-             export $RELEASE
+             export ${DISTRIBUTION}
              ;;
          h)
              #usage
@@ -27,7 +29,7 @@ done
 . /usr/share/pbuilder-scripts/set_pbuilder
 
 
-cd $BUILDRESULT
+cd ${BUILDRESULT}
 echo -e "\033[1m\033[33mpbuilder-results: Leave with exit"
 echo -e "$(pwd)\033[0m"; 
 echo

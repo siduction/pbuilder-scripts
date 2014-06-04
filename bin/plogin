@@ -2,20 +2,20 @@
 #
 # plogin
 #
-# (c) 2011-2013 Alf Gaida <agaida@siduction.org>
+# © 2011-2014 Alf Gaida <agaida@siduction.org>
 #
+
+export DISTRIBUTION="unstable"
 export ARCH="amd64"
-export DIST="unstable"
-export RELEASE="unstable"
-while getopts “a:r:sh” OPTION; do
+
+while getopts “d:a:sh” OPTION; do
      case ${OPTION} in
+         d)
+             DISTRIBUTION=${OPTARG}
+             export DISTRIBUTION
          a)
              ARCH=${OPTARG}
-             export $ARCH
-             ;;
-         r)
-             RELEASE=${OPTARG}
-             export $RELEASE
+             export ARCH
              ;;
          s)
              SAVESETTINGS='--save-settings'
@@ -27,18 +27,16 @@ while getopts “a:r:sh” OPTION; do
      esac
 done
 
-case $ARCH in 
+case ${ARCH} in 
     i386)
-        export debian_chroot="\[\033[1;33m\]pbuild-$RELEASE-$ARCH $$\[\033[0m\]"
+        export debian_chroot="\[\033[1;33m\]pbuild-${DISTRIBUTION}-${ARCH} $$\[\033[0m\]"
         ;;
     amd64)
-        export debian_chroot="\[\033[1;33m\]pbuild-$RELEASE-$ARCH $$\[\033[0m\]"
+        export debian_chroot="\[\033[1;33m\]pbuild-${DISTRIBUTION}-${ARCH} $$\[\033[0m\]"
         ;;
 esac
 
 . /usr/share/pbuilder-scripts/set_pbuilder
-export OLDGNUPGHOME=${GNUPGHOME}
-export GNUPGHOME="/home/${BUILDER}/.gnupg"
+
 sudo -E pbuilder --login ${@} ${SAVESETTINGS}
 
-export GNUPGHOME=${OLDGNUPGHOME}
