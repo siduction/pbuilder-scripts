@@ -26,17 +26,17 @@ fi
 
 # really dirty - serverside base is defined fugly as can be for now
 REPOBASE="/var/www/virtual/packages/${REPOSITORY}"
-BUILDTARGET="/var/cache/pbuilder/${DISTRIBUTION}-${ARCH}/result"
+BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
 
 ## is_valid_line
 is_valid_line() {
-    [[ ! -e ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH}
-    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH} &>/dev/null
+    [[ ! -e ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
+    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH} &>/dev/null
     RESULT=$?
     case ${RESULT} in
         1)
-             if [ ! -f ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRIBUTION}-${ARCH} ]; then
-                 echo ${REPOLINE} > ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRIBUTION}-${ARCH}
+             if [ ! -f ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRI}-${ARCH} ]; then
+                 echo ${REPOLINE} > ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRI}-${ARCH}
              fi
         ;;
     esac
@@ -55,7 +55,7 @@ for i in ${REPOSITORIES}; do
             for m in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing ${k}  ${l}"); do
                 REPOLINE=$m
                 REPOSITORY=${i}
-                DISTRIBUTION=${k}
+                DISTRI=${k}
                 ARCH=${l}
                 is_valid_line
             done

@@ -5,7 +5,7 @@
 # © 2011-2014 Alf Gaida <agaida@siduction.org>
 #
 export REPOSITORY="extra"
-export DISTRIBUTION="unstable"
+export DISTRI="unstable"
 export ARCH="amd64"
 
 OPTIONS="${@}"
@@ -31,7 +31,7 @@ while getopts “r:d:a:h” OPTION; do
              export REPOSITORY=${OPTARG}
              OPTIONS=$(echo ${OPTIONS} | sed -e "s/\-r//" -e "s/${OPTARG}//")
              ;;
-         d)  export DISTRIBUTION=${OPTARG}
+         d)  export DISTRI=${OPTARG}
              OPTIONS=$(echo ${OPTIONS} | sed -e "s/\-d//" -e "s/${OPTARG}//")
              ;;
          a)
@@ -71,7 +71,7 @@ sign_builded_packages() {
 echo -e "\n"
 echo -e "pbuild"
 echo -e "Repository:    $REPOSITORY"
-echo -e "Distibution:   $DISTRIBUTION"
+echo -e "Distibution:   $DISTRI"
 echo -e "Architectiure: $ARCH"
 echo -e "Buildresult    $BUILDRESULT"
 echo -e "DSC-File  :    $DSCFILE"

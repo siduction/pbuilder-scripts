@@ -1,7 +1,7 @@
 # pbuilderrc.user
-# (c) 2012 Alf Gaida <agaida@siduction.org>
+# (c) 2012-2014 Alf Gaida <agaida@siduction.org>
 #
-# please note, that this configuration file is meant to be
+# please note that this configuration file is meant to be
 # placed as ~/.pbuilderrc
 
 ## Secure Setting, Trusts
@@ -14,7 +14,10 @@
 # export PKGNAME_LOGFILE=yes
 # export APTCACHEHARDLINK=no
 
-# BASETGZ="/var/cache/pbuilder/$NAME-base.tgz"
-# BUILDRESULT="/var/cache/pbuilder/${NAME}/result/"
+# BASETGZ="/var/cache/pbuilder/$BUILDCHROOT-base.tgz"
+# export BUILDRESULT="/var/cache/pbuilder/${BUILDCHROOT}/result/"
 # APTCACHE="/var/cache/pbuilder/aptcache/"
 # BUILDPLACE="/var/cache/pbuilder/build"
+# HOOKDIR="/var/cache/pbuilder/hooks"
+# CCACHEDIR="/var/cache/pbuilder/ccache"
+# export PATH="/usr/lib/ccache:${PATH}"

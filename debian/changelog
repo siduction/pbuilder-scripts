@@ -1,3 +1,22 @@
+pbuilder-scripts (0.26) unstable; urgency=medium
+
+  * remove some packages from EXTRAPACKAGES
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 15 Aug 2014 21:47:03 +0200
+
+pbuilder-scripts (0.25) unstable; urgency=medium
+
+  * DISTRIBUTION -> DISTRI as DISTRIBUTION is used internal for other
+    things as our distributions 
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 15 Jun 2014 23:24:37 +0200
+
+pbuilder-scripts (0.24) unstable; urgency=medium
+
+  * jenkins-pupdate and configuration added
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 07 Jun 2014 16:59:05 +0200
+
 pbuilder-scripts (0.23) unstable; urgency=medium
 
   * upload work now right

@@ -6,7 +6,7 @@
 #
 
 export REPOSITORY="extra"
-export DISTRIBUTION="unstable"
+export DISTRI="unstable"
 export ARCH="amd64"
 
 while getopts “a:r:s:h” OPTION; do
@@ -17,7 +17,7 @@ while getopts “a:r:s:h” OPTION; do
              ;;
          r)
              RELEASE=${OPTARG}
-             export ${DISTRIBUTION}
+             export ${DISTRI}
              ;;
          h)
              #usage

@@ -5,14 +5,14 @@
 # © 2011-2014 Alf Gaida <agaida@siduction.org>
 #
 
-export DISTRIBUTION="unstable"
+export DISTRI="unstable"
 export ARCH="amd64"
 
 while getopts “d:a:sh” OPTION; do
      case ${OPTION} in
          d)
-             DISTRIBUTION=${OPTARG}
-             export DISTRIBUTION
+             DISTRI=${OPTARG}
+             export DISTRI
          a)
              ARCH=${OPTARG}
              export ARCH
@@ -29,10 +29,10 @@ done
 
 case ${ARCH} in 
     i386)
-        export debian_chroot="\[\033[1;33m\]pbuild-${DISTRIBUTION}-${ARCH} $$\[\033[0m\]"
+        export debian_chroot="\[\033[1;33m\]pbuild-${DISTRI}-${ARCH} $$\[\033[0m\]"
         ;;
     amd64)
-        export debian_chroot="\[\033[1;33m\]pbuild-${DISTRIBUTION}-${ARCH} $$\[\033[0m\]"
+        export debian_chroot="\[\033[1;33m\]pbuild-${DISTRI}-${ARCH} $$\[\033[0m\]"
         ;;
 esac
 

@@ -8,9 +8,9 @@ export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/libeatmydata/libeatmydata
 # that you can set your own default (i.e. ${ARCH:="i386"}).
 : ${ARCH:="$(dpkg --print-architecture)"}
 
-BUILDCHROOT="${DISTRIBUTION}"
+BUILDCHROOT="${DISTRI}"
 if [ -n "${ARCH}" ]; then
-    BUILDCHROOT="${DISTRIBUTION}-${ARCH}"
+    BUILDCHROOT="${DISTRI}-${ARCH}"
     DEBOOTSTRAPOPTS=("--arch" "$ARCH" "${DEBOOTSTRAPOPTS[@]}")
 fi
 export BUILDCHROOT
@@ -29,7 +29,6 @@ APTCACHE="/var/cache/pbuilder/aptcache/"
 BUILDPLACE="/var/cache/pbuilder/build"
 HOOKDIR="/var/cache/pbuilder/hooks"
 CCACHEDIR="/var/cache/pbuilder/ccache"
-BINDMOUNTS="/home/$BUILDER/.gnupg"
 export PATH="/usr/lib/ccache:${PATH}"
 
 case "${ARCH}" in
@@ -42,29 +41,14 @@ case "${ARCH}" in
 esac
 
 EXTRAPACKAGES=" \
-    autopoint \
-    apt-show-versions \
-    apt-utils \
-    autotools-dev \
-    bash-completion \
     ccache \
-    cdbs \
     debhelper \
     devscripts \
     eatmydata \
     fakeroot \
     gawk \
     gnupg-agent  \
-    groff \
-    intltool \
     less \
-    libfile-fcntllock-perl \
-    libtool \
-    lintian \
-    locate \
-    nano \
-    procps \
-    psmisc \
     siduction-archive-keyring \
 "
 
@@ -75,7 +59,7 @@ DEBIAN_MIRROR="debian.siduction.org"
 MIRRORSITE="http://${DEBIAN_MIRROR}/"
 COMPONENTS="main contrib non-free"
 
-case ${DISTRIBUTION} in
+case ${DISTRI} in
     unstable)
         OTHERMIRROR="   deb http://packages.siduction.org/base unstable main"
         OTHERMIRROR+=" | deb http://packages.siduction.org/extra unstable main"
@@ -105,7 +89,7 @@ case ${DISTRIBUTION} in
         ;;
 
     *)
-        echo "Unknown distribution: ${DISTRIBUTION}"
+        echo "Unknown distribution: ${DISTRI}"
         exit 1
         ;;
 esac
@@ -114,7 +98,7 @@ esac
 
 case ${REPOSITORY} in
     lxqt)
-        case ${DISTRIBUTION} in
+        case ${DISTRI} in
             unstable)
                 OTHERMIRROR="    deb http://$DEBIAN_MIRROR/ experimental main contrib non-free"
                 OTHERMIRROR+=" | deb http://packages.siduction.org/lxqt unstable main"
@@ -127,7 +111,7 @@ case ${REPOSITORY} in
         esac
         ;;
     kdenext)
-        case ${DISTRIBUTION} in
+        case ${DISTRI} in
             unstable)
                 OTHERMIRROR="    deb http://$DEBIAN_MIRROR/ experimental main contrib non-free"
                 OTHERMIRROR+=" | deb http://packages.siduction.org/kdenext unstable main"
@@ -140,7 +124,7 @@ case ${REPOSITORY} in
         esac
         ;;
     xfcenext) 
-        case ${DISTRIBUTION} in
+        case ${DISTRI} in
             unstable)
                 OTHERMIRROR="    deb http://$DEBIAN_MIRROR/ experimental main contrib non-free"
                 OTHERMIRROR+=" | deb http://packages.siduction.org/xfcenext unstable main"

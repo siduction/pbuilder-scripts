@@ -4,14 +4,14 @@
 #
 # © 2011-2014 Alf Gaida <agaida@siduction.org>
 #
-export DISTRIBUTION="unstable"
+export DISTRI="unstable"
 export ARCH="amd64"
 
 while getopts “d:a:h” OPTION; do
      case ${OPTION} in
          d)
-             DISTRIBUTION=${OPTARG}
-             export DISTRIBUTION
+             DISTRI=${OPTARG}
+             export DISTRI
              ;;
          a)
              ARCH=${OPTARG}

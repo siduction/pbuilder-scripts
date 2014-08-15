@@ -43,7 +43,7 @@ while getopts “a:r:d:Vhx” OPTION; do
             REPOSITORY=${OPTARG}
             ;;
         d)
-            DISTRIBUTION=${OPTARG}
+            DISTRI=${OPTARG}
             ;;
         a)
             ARCH=${OPTARG}
@@ -68,8 +68,8 @@ REPOBASE="/var/www/virtual/packages/${REPOSITORY}"
 
 ## is_valid_line
 is_valid_line() {
-    [[ ! -e ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH}
-    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH}
+    [[ ! -e ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
+    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
     RESULT=$?
     case ${RESULT} in
         1)
@@ -117,8 +117,8 @@ build_source_package() {
             BUILDARCH=${ARCH}
             ;;
     esac
-    BUILDTARGET="/var/cache/pbuilder/${DISTRIBUTION}-${BUILDARCH}/result"
-    pbuild -r ${REPOSITORY} -d ${DISTRIBUTION} -a ${BUILDARCH}  ${BUILD_DSC}
+    BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${BUILDARCH}/result"
+    pbuild -r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}  ${BUILD_DSC}
     RESULT=$?
     echo -e "build_source_package Result: ${RESULT}"
     popd
@@ -134,8 +134,8 @@ build_source_package() {
 
 ## upload_package
 upload_package() {
-    if [ -e /tmp/dput-post-upload-error ]; then
-        rm -f /tmp/dput-post-upload-error
+    if [ -e /tmp/dput/dput-post-upload-error ]; then
+        rm -f /tmp/dput/dput-post-upload-error
     fi
     pushd ${BUILDTARGET}
     dput  ${REPOSITORY} ${UPLOADFILES}changes
@@ -147,8 +147,8 @@ upload_package() {
         fi
     fi
     if [ "${FAILED}" != "true" ]; then
-        if [ -e /tmp/dput-post-upload-error ]; then
-            rm -f /tmp/dput-post-upload-error
+        if [ -e /tmp/dput/dput-post-upload-error ]; then
+            rm -f /tmp/dput/dput-post-upload-error
             write_failed
             FAILED="true"
             RESULT=1
@@ -162,20 +162,20 @@ upload_package() {
 
 ## delete failed builds file
 delete_failed() {
-    rm -fv  ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH}
+    rm -fv  ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
 }
 
 ## write_failed
 write_failed() {
-    echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRIBUTION}-${ARCH}
-    echo -e "added ${REPOLINE} to failed builds for ${REPOSITORY}, ${DISTRIBUTION} and ${ARCH} \n"
+    echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
+    echo -e "added ${REPOLINE} to failed builds for ${REPOSITORY}, ${DISTRI} and ${ARCH} \n"
 }
 
 ## Main
 [ "${DELETE_FAILED}" = "true" ] && delete_failed && exit 0
 [ ! -d ${SOURCEPATH} ] && mkdir -p ${SOURCEPATH} && echo ${SOURCEPATH}
 IFS=$'\n'
-for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing ${DISTRIBUTION}  $ARCH"); do
+for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing ${DISTRI}  $ARCH"); do
     REPOLINE=$i
     is_valid_line
     [ "$?" -ne "1" ] && continue
