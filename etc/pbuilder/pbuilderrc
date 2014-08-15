@@ -52,6 +52,10 @@ EXTRAPACKAGES=" \
     siduction-archive-keyring \
 "
 
+# to cleanup existing chroots - remove the comment
+# REMOVEPACKAGES="lintian nano apt-utils apt-show-versions autopoint autotools-dev cdbs groff intltool libtool locate procps psmisc cmake automake  bash-completion libfile-fcntllock-perl"
+# 
+
 # Mirrors to use. Update these to your preferred mirror.
 DEBIAN_MIRROR="debian.siduction.org"
 
