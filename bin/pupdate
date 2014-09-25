@@ -27,5 +27,6 @@ done
 
 . /usr/share/pbuilder-scripts/set_pbuilder
 
+sudo -E pbuilder --clean
 sudo -E pbuilder --update --override-config ${@}
 

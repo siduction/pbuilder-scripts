@@ -1,3 +1,15 @@
+pbuilder-scripts (0.28) unstable; urgency=medium
+
+  * some improvements for 'all' packages 
+
+ -- Alf Gaida <agaida@siduction.org>  Thu, 25 Sep 2014 23:25:18 +0200
+
+pbuilder-scripts (0.27) unstable; urgency=medium
+
+  * reactivated apt-utils libfile-fcntllock-perl 
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 16 Aug 2014 02:49:10 +0200
+
 pbuilder-scripts (0.26) unstable; urgency=medium
 
   * remove some packages from EXTRAPACKAGES

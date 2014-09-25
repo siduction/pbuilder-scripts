@@ -9,14 +9,14 @@ export REPOSITORY="extra"
 export DISTRI="unstable"
 export ARCH="amd64"
 
-while getopts “a:r:s:h” OPTION; do
+while getopts “a:d:s:h” OPTION; do
      case ${OPTION} in
          a)
              ARCH=${OPTARG}
              export $ARCH
              ;;
-         r)
-             RELEASE=${OPTARG}
+         d)
+             DISTRI=${OPTARG}
              export ${DISTRI}
              ;;
          h)

@@ -1,7 +1,7 @@
 #!/bin/bash
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
-REPOSITORIES="base extra fixes lxqt" #kdenext
+REPOSITORIES="base extra fixes lxqt"
 DISTRIBUTIONS="unstable next experimental"
 ARCHS="amd64 i386 all"
 
@@ -24,21 +24,22 @@ if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
     . ${HOME}/.config/jenkins/jenkins-builpackage.conf
 fi
 
-# really dirty - serverside base is defined fugly as can be for now
-REPOBASE="/var/www/virtual/packages/${REPOSITORY}"
-BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
 
 ## is_valid_line
 is_valid_line() {
-    [[ ! -e ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH}
-    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${ARCH} &>/dev/null
+    [[ ! -e ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${BUILDARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${BUILDARCH}
+    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${BUILDARCH} &>/dev/null
     RESULT=$?
     case ${RESULT} in
         1)
-             if [ ! -f ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRI}-${ARCH} ]; then
-                 echo ${REPOLINE} > ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRI}-${ARCH}
+             if [ ! -f ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRI}-${BUILDARCH} ]; then
+                 echo ${REPOLINE} > ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRI}-${BUILDARCH}
+                 echo "${REPOLINE} > ${SOURCEPATH}/needed-${REPOSITORY}-${DISTRI}-${BUILDARCH}"
              fi
-        ;;
+             ;;
+        *)
+             echo "ERROR: $REPOLINE : RESULT $RESULT : ARCH $BUILDARCH"
+             ;;
     esac
     return ${RESULT}
 }
@@ -56,7 +57,7 @@ for i in ${REPOSITORIES}; do
                 REPOLINE=$m
                 REPOSITORY=${i}
                 DISTRI=${k}
-                ARCH=${l}
+                BUILDARCH=${l}
                 is_valid_line
             done
             unset IFS

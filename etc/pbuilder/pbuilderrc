@@ -8,6 +8,20 @@ export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/libeatmydata/libeatmydata
 # that you can set your own default (i.e. ${ARCH:="i386"}).
 : ${ARCH:="$(dpkg --print-architecture)"}
 
+case "${BUILDARCH}" in
+  all)
+      DEBBUILDOPTS="-j8 -A"
+      ARCH=amd64
+      ;;
+  i386)
+      DEBBUILDOPTS="-j8 -B"
+      ;;
+  amd64)
+      DEBBUILDOPTS="-j8 -B"
+      ;;
+esac
+
+
 BUILDCHROOT="${DISTRI}"
 if [ -n "${ARCH}" ]; then
     BUILDCHROOT="${DISTRI}-${ARCH}"
@@ -31,16 +45,9 @@ HOOKDIR="/var/cache/pbuilder/hooks"
 CCACHEDIR="/var/cache/pbuilder/ccache"
 export PATH="/usr/lib/ccache:${PATH}"
 
-case "${ARCH}" in
-  i386)
-      DEBBUILDOPTS="-j8 -B"
-      ;;
-  amd64)
-      DEBBUILDOPTS="-j8 -b"
-      ;;
-esac
 
 EXTRAPACKAGES=" \
+    apt-utils \
     ccache \
     debhelper \
     devscripts \
@@ -49,11 +56,12 @@ EXTRAPACKAGES=" \
     gawk \
     gnupg-agent  \
     less \
+    libfile-fcntllock-perl \
     siduction-archive-keyring \
 "
 
 # to cleanup existing chroots - remove the comment
-# REMOVEPACKAGES="lintian nano apt-utils apt-show-versions autopoint autotools-dev cdbs groff intltool libtool locate procps psmisc cmake automake  bash-completion libfile-fcntllock-perl"
+# REMOVEPACKAGES="lintian nano apt-show-versions autopoint autotools-dev cdbs groff intltool libtool locate procps psmisc cmake automake  bash-completion"
 # 
 
 # Mirrors to use. Update these to your preferred mirror.

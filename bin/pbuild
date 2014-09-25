@@ -20,7 +20,7 @@ OPTIONS:
     -h  Show this message
     -r  Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext
     -d  Distribution: unstable, next, experimental
-    -a  Architecture, should be 'i386', 'amd64'
+    -a  Architecture, should be 'i386', 'amd64' or 'all'
     -V  Version
 EOF
 }
@@ -36,6 +36,7 @@ while getopts “r:d:a:h” OPTION; do
              ;;
          a)
              export ARCH=${OPTARG}
+	     export BUILDARCH=${OPTARG}
              OPTIONS=$(echo ${OPTIONS} | sed -e "s/\-a//" -e "s/${OPTARG}//")
              ;;
          h)
@@ -72,6 +73,7 @@ echo -e "\n"
 echo -e "pbuild"
 echo -e "Repository:    $REPOSITORY"
 echo -e "Distibution:   $DISTRI"
+echo -e "Build Arch:    $BUILDARCH"
 echo -e "Architectiure: $ARCH"
 echo -e "Buildresult    $BUILDRESULT"
 echo -e "DSC-File  :    $DSCFILE"
