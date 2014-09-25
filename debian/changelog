@@ -1,3 +1,17 @@
+pbuilder-scripts (0.30) unstable; urgency=medium
+
+  * --color html
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 26 Sep 2014 01:09:04 +0200
+
+pbuilder-scripts (0.29) unstable; urgency=medium
+
+  * install lintan as additional package
+  * install modified lintial hook from samples
+    EvIL +pedantic --show-overrides --color=always
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 26 Sep 2014 00:22:19 +0200
+
 pbuilder-scripts (0.28) unstable; urgency=medium
 
   * some improvements for 'all' packages 

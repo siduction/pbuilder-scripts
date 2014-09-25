@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+echo ""
+echo ""
+echo "+++ lintian output +++"
+
+su -c "lintian -EvIL +pedantic --show-overrides --color html  /tmp/buildd/*.changes; :" - pbuilder
+
+echo "+++ end of lintian output +++"
+
+echo
+echo

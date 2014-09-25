@@ -57,11 +57,12 @@ EXTRAPACKAGES=" \
     gnupg-agent  \
     less \
     libfile-fcntllock-perl \
+    lintian \
     siduction-archive-keyring \
 "
 
 # to cleanup existing chroots - remove the comment
-# REMOVEPACKAGES="lintian nano apt-show-versions autopoint autotools-dev cdbs groff intltool libtool locate procps psmisc cmake automake  bash-completion"
+# REMOVEPACKAGES=" nano apt-show-versions autopoint autotools-dev cdbs groff intltool libtool locate procps psmisc cmake automake  bash-completion"
 # 
 
 # Mirrors to use. Update these to your preferred mirror.
