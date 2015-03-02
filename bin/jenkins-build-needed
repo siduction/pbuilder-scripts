@@ -51,7 +51,7 @@ is_valid_line() {
 for i in ${REPOSITORIES}; do
     for k in ${DISTRIBUTIONS}; do
         for l in ${ARCHS}; do
-            REPOBASE="/var/www/virtual/packages/${i}"
+            REPOBASE="${REPOPATH}/${i}"
             IFS=$'\n'
             for m in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing ${k}  ${l}"); do
                 REPOLINE=$m

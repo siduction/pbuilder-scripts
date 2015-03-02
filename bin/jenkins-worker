@@ -20,8 +20,7 @@ if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
 fi
 
 
-# really dirty - serverside base is defined fugly as can be for now
-REPOBASE="/var/www/virtual/packages/${REPOSITORY}"
+REPOBASE="${REPOPATH}/${REPOSITORY}"
 
 ## split_needs
 split_needs() {

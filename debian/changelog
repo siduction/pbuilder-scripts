@@ -1,3 +1,9 @@
+pbuilder-scripts (0.31) unstable; urgency=medium
+
+  * fixup some issues, biggest was the hard wired repopath on serverside 
+
+ -- Alf Gaida <agaida@siduction.org>  Mon, 02 Mar 2015 23:04:00 +0100
+
 pbuilder-scripts (0.30) unstable; urgency=medium
 
   * --color html

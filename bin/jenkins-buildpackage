@@ -62,8 +62,7 @@ while getopts “a:r:d:Vhx” OPTION; do
      esac
 done
 
-# really dirty - serverside base is defined fugly as can be for now
-REPOBASE="/var/www/virtual/packages/${REPOSITORY}"
+REPOBASE="${REPOPATH}/${REPOSITORY}"
 
 
 ## is_valid_line

@@ -13,6 +13,7 @@ while getopts “d:a:sh” OPTION; do
          d)
              DISTRI=${OPTARG}
              export DISTRI
+             ;;
          a)
              ARCH=${OPTARG}
              export ARCH
