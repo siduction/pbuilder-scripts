@@ -2,21 +2,27 @@
 #
 # plogin
 #
-# © 2011-2014 Alf Gaida <agaida@siduction.org>
+# © 2011-2015 Alf Gaida <agaida@siduction.org>
 #
 
+export TARGET="siduction"
+export REPOSITORY="extra"
 export DISTRI="unstable"
 export ARCH="amd64"
 
-while getopts “d:a:sh” OPTION; do
+while getopts “t:r:d:a:sh” OPTION; do
      case ${OPTION} in
+         t)
+             export TARGET=${OPTARG}
+             ;;
+         r)
+             export REPOSITORY=${OPTARG}
+             ;;
          d)
-             DISTRI=${OPTARG}
-             export DISTRI
+             export DISTRI=${OPTARG}
              ;;
          a)
-             ARCH=${OPTARG}
-             export ARCH
+             export ARCH=${OPTARG}
              ;;
          s)
              SAVESETTINGS='--save-settings'

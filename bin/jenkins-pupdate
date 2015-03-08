@@ -1,6 +1,7 @@
 #!/bin/bash
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
+TARGETS="siduction debian"
 DISTRIBUTIONS="unstable next experimental"
 ARCHS="amd64 i386 all"
 
@@ -14,13 +15,15 @@ version() {
     echo "$(basename $0): ${VERSION}"
 }
 
-for i in ${DISTRIBUTIONS}; do
-    for k in ${ARCHS}; do
-        echo -e ""
-        echo -e "\nUpdate Build-Chroot"
-        echo -e "Distribution: ${i}"
-        echo -e "Architecture: ${k} \n "
-
-       pupdate -d ${i} -a ${k}
+for h in ${TARGETS}; do
+    for i in ${DISTRIBUTIONS}; do
+        for k in ${ARCHS}; do
+            echo -e ""
+            echo -e "\nUpdate Build-Chroot"
+            echo -  "Target:       ${h}"
+            echo -e "Distribution: ${i}"
+            echo -e "Architecture: ${k} \n "
+            pupdate -t ${h} -d ${i} -a ${k}
+        done
     done
 done

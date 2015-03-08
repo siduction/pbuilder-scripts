@@ -1,3 +1,10 @@
+pbuilder-scripts (0.32) unstable; urgency=medium
+
+  * TARGET newly introduced - siduction or debian, make it possible to
+    use different build chroots for siduction and debian packages 
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 08 Mar 2015 03:02:03 +0100
+
 pbuilder-scripts (0.31) unstable; urgency=medium
 
   * fixup some issues, biggest was the hard wired repopath on serverside 

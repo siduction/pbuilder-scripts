@@ -1,6 +1,7 @@
 #!/bin/bash
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
+TARGETS="siduction debian"
 REPOSITORIES="base extra fixes lxqt"
 DISTRIBUTIONS="unstable next experimental"
 ARCHS="amd64 i386 all"
@@ -49,6 +50,14 @@ is_valid_line() {
 [ ! -d ${SOURCEPATH} ] && mkdir -p ${SOURCEPATH} && echo ${SOURCEPATH}
 
 for i in ${REPOSITORIES}; do
+    case ${i} in
+        lxqt)
+            TARGET=debian
+            ;;
+        *)
+            TARGET=siduction
+            ;;
+    esac
     for k in ${DISTRIBUTIONS}; do
         for l in ${ARCHS}; do
             REPOBASE="${REPOPATH}/${i}"

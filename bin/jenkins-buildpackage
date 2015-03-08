@@ -10,6 +10,7 @@ usage: $0 options
 
 OPTIONS:
     -h  Show this message
+    -t  Target: siduction, debian
     -r  Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext
     -d  Distribution: unstable, next, experimental
     -a  Architecture, should be 'all', 'i386' or 'amd64'
@@ -37,8 +38,11 @@ if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
 fi
 
 ## option handling
-while getopts “a:r:d:Vhx” OPTION; do
+while getopts “t:r:d:a:Vhx” OPTION; do
     case ${OPTION} in
+        t)
+            TARGET=${OPTARG}
+            ;;
         r)
             REPOSITORY=${OPTARG}
             ;;
@@ -116,9 +120,9 @@ build_source_package() {
             ARCH=${BUILDARCH}
             ;;
     esac
-    BUILDTARGET="/var/cache/pbuilder/${DISTRI}-${ARCH}/result"
-    echo "pbuild -r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}  ${BUILD_DSC}"
-    pbuild -r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}  ${BUILD_DSC}
+    BUILDTARGET="/var/cache/pbuilder/${TARGET}-${DISTRI}-${ARCH}/result"
+    echo "pbuild -t ${TARGET}-r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}  ${BUILD_DSC}"
+    pbuild -t ${TARGET} -r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}  ${BUILD_DSC}
     RESULT=$?
     echo -e "build_source_package Result: ${RESULT}"
     popd

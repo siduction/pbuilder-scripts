@@ -2,22 +2,27 @@
 #
 # packs
 #
-# (c) 2011-2013 Alf Gaida <agaida@siduction.org>
+# (c) 2011-2015 Alf Gaida <agaida@siduction.org>
 #
 
+export TARGET="siduction"
 export REPOSITORY="extra"
 export DISTRI="unstable"
 export ARCH="amd64"
 
-while getopts “a:d:s:h” OPTION; do
+while getopts “t:r:d:a:h” OPTION; do
      case ${OPTION} in
-         a)
-             ARCH=${OPTARG}
-             export $ARCH
+         t)
+             export TARGET=${OPTARG}
+             ;;
+         r)
+             export REPOSITORY=${OPTARG}
              ;;
          d)
-             DISTRI=${OPTARG}
-             export ${DISTRI}
+             export DISTRI=${OPTARG}
+             ;;
+         a)
+             export ARCH=${OPTARG}
              ;;
          h)
              #usage

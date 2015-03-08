@@ -2,7 +2,8 @@
 #
 # packs386
 #
-# (c) 2011-2013 Alf Gaida <agaida@siduction.org>
+# (c) 2011-2015 Alf Gaida <agaida@siduction.org>
 #
+
 packs -a i386 ${@}
 

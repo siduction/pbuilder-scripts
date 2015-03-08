@@ -1,5 +1,9 @@
 #!/bin/bash
-
+#
+# psource
+#
+# © 2011 - 2015 Alf Gaida <agaida@siduction.org>
+#
 
 if [ -d ${@} ]; then
   cd ./${@}

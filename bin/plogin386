@@ -1,8 +1,9 @@
 #!/bin/bash
 #
-# plogin
+# plogin386
 #
-# © 2011-2014 Alf Gaida <agaida@siduction.org>
+# © 2011-2015 Alf Gaida <agaida@siduction.org>
 #
+
 plogin -a i386 ${@} 
 
