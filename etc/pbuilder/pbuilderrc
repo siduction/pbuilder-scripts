@@ -1,5 +1,3 @@
-export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/libeatmydata/libeatmydata.so"
-
 # Optionally set a default distribution if none is used. Note that you can set
 # your own default (i.e. ${DIST:="unstable"}).
 : ${DISTRIBUTION:="unstable"}
@@ -12,12 +10,15 @@ case "${BUILDARCH}" in
   all)
       DEBBUILDOPTS="-j8 -A"
       ARCH=amd64
+      export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/x86_64-linux-gnu/libeatmydata.so"
       ;;
   i386)
       DEBBUILDOPTS="-j8 -B"
+      export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/i386-linux-gnu/libeatmydata.so"
       ;;
   amd64)
       DEBBUILDOPTS="-j8 -B"
+      export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/x86_64-linux-gnu/libeatmydata.so"
       ;;
 esac
 
