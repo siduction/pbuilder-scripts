@@ -1,0 +1,10 @@
+Package: pbuilder-apt-settings
+Source: pbuilder-scripts
+Version: 0.35
+Architecture: all
+Maintainer: Alf Gaida <agaida@siduction.org>
+Installed-Size: 39
+Section: devel
+Priority: extra
+Description: Apt Settings for pbuilder
+ Some useful description should be added here

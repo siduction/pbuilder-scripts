@@ -3,22 +3,29 @@ Section: devel
 Priority: extra
 Maintainer: Alf Gaida <agaida@siduction.org>
 Build-Depends: debhelper (>= 9)
-Standards-Version: 3.9.5
-Vcs-Git: git://git.siduction.org/code/pbuilder-scripts
-Vcs-Browser: http://git.siduction.org/?p=code/pbuilder-scripts.git;a=summary
+Standards-Version: 3.9.6
+Vcs-Git: git://git.siduction.org/base/pbuilder-scripts.git
+Vcs-Browser: http://git.siduction.org/summary/base!pbuilder-scripts.git
 
 Package: pbuilder-scripts
 Architecture: all
 Depends: 
-    ${misc:Depends},
-    devscripts,
-    pbuilder,
-    libparse-debcontrol-perl,
-    lsb-base,
-    libtie-ixhash-perl,
-    libio-stringy-perl,
-    libexporter-lite-perl,
-    eatmydata,
-    realpath,
+ ${misc:Depends},
+ devscripts,
+ pbuilder,
+ libparse-debcontrol-perl,
+ lsb-base,
+ libtie-ixhash-perl,
+ libio-stringy-perl,
+ libexporter-lite-perl,
+ realpath,
 Description: Set of pbuilder helpers
  Some useful description should be added here
+
+Package: pbuilder-apt-settings
+Architecture: all
+Depends:
+ ${misc:Depends},
+Description: Apt Settings for pbuilder
+ Some useful description should be added here
+

@@ -1,3 +1,16 @@
+pbuilder-scripts (0.35) unstable; urgency=medium
+
+  * apt-speedup implemented, package pbuilder-apt-settings 
+  * eatmydata - new version 
+
+ -- Alf Gaida <agaida@siduction.org>  Thu, 12 Mar 2015 23:20:58 +0100
+
+pbuilder-scripts (0.34) unstable; urgency=medium
+
+  * remove eatmydata finally 
+
+ -- Alf Gaida <agaida@siduction.org>  Thu, 12 Mar 2015 22:46:32 +0100
+
 pbuilder-scripts (0.33) unstable; urgency=medium
 
   * reenable eatmydata

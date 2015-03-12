@@ -10,15 +10,12 @@ case "${BUILDARCH}" in
   all)
       DEBBUILDOPTS="-j8 -A"
       ARCH=amd64
-      export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/x86_64-linux-gnu/libeatmydata.so"
       ;;
   i386)
       DEBBUILDOPTS="-j8 -B"
-      export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/i386-linux-gnu/libeatmydata.so"
       ;;
   amd64)
       DEBBUILDOPTS="-j8 -B"
-      export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/x86_64-linux-gnu/libeatmydata.so"
       ;;
 esac
 
@@ -37,6 +34,7 @@ export USEDEVPTS=yes
 export PKGNAME_LOGFILE_EXTENTION=.build
 export PKGNAME_LOGFILE=yes
 export APTCACHEHARDLINK=no
+export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}libeatmydata.so"
 
 BASETGZ="/var/cache/pbuilder/$BUILDCHROOT-base.tgz"
 export BUILDRESULT="/var/cache/pbuilder/${BUILDCHROOT}/result/"
@@ -59,6 +57,7 @@ EXTRAPACKAGES=" \
     less \
     libfile-fcntllock-perl \
     lintian \
+    pbuilder-apt-settings \
     siduction-archive-keyring \
 "
 
@@ -76,31 +75,31 @@ case ${TARGET} in
   siduction)
     case ${DISTRI} in
         unstable)
-            OTHERMIRROR="   deb http://packages.siduction.org/base unstable main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/extra unstable main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes unstable main contrib non-free"
-            OTHERMIRROR+=" | deb http://$DEBIAN_MIRROR/ experimental main contrib non-free"
+            OTHERMIRROR="    deb http://packages.siduction.org/base  unstable     main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/extra unstable     main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes unstable     main contrib non-free"
+            OTHERMIRROR+=" | deb http://$DEBIAN_MIRROR/              experimental main contrib non-free"
             ;;
         next)
-            OTHERMIRROR="   deb http://packages.siduction.org/base        unstable     main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/base     next         main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/extra    unstable     main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/extra    next         main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes    unstable     main contrib non-free"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes    next         main contrib non-free"
-            OTHERMIRROR+=" | deb http://$DEBIAN_MIRROR/                 experimental main contrib non-free"
+            OTHERMIRROR="    deb http://packages.siduction.org/base  unstable     main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/base  next         main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/extra unstable     main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/extra next         main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes unstable     main contrib non-free"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes next         main contrib non-free"
+            OTHERMIRROR+=" | deb http://$DEBIAN_MIRROR/              experimental main contrib non-free"
             ;;
         experimental)
-            OTHERMIRROR="   deb http://packages.siduction.org/base     unstable     main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/base     next         main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/base     experimental main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/extra    unstable     main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/extra    next         main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/extra    experimental main"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes    unstable     main contrib non-free"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes    next         main contrib non-free"
-            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes    experimental main contrib non-free"
-            OTHERMIRROR+=" | deb http://$DEBIAN_MIRROR/                 experimental main contrib non-free"
+            OTHERMIRROR="    deb http://packages.siduction.org/base  unstable     main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/base  next         main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/base  experimental main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/extra unstable     main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/extra next         main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/extra experimental main"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes unstable     main contrib non-free"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes next         main contrib non-free"
+            OTHERMIRROR+=" | deb http://packages.siduction.org/fixes experimental main contrib non-free"
+            OTHERMIRROR+=" | deb http://$DEBIAN_MIRROR/              experimental main contrib non-free"
             ;;
         *)
             echo "Unknown distribution: ${DISTRI}"
