@@ -1,3 +1,10 @@
+pbuilder-scripts (0.36) UNRELEASED; urgency=medium
+
+  * cleanup, jessie-backports added
+  * eatmydata finally removed
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 27 Jun 2015 13:51:53 +0200
+
 pbuilder-scripts (0.35) unstable; urgency=medium
 
   * apt-speedup implemented, package pbuilder-apt-settings 

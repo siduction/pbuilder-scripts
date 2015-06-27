@@ -3,7 +3,7 @@ PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
 TARGETS="siduction debian"
 REPOSITORIES="base extra fixes lxqt"
-DISTRIBUTIONS="unstable next experimental"
+DISTRIBUTIONS="jessie-backports unstable next experimental"
 ARCHS="amd64 i386 all"
 
 

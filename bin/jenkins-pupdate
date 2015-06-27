@@ -2,7 +2,7 @@
 PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 
 TARGETS="siduction debian"
-DISTRIBUTIONS="unstable next experimental"
+DISTRIBUTIONS="jessie-backports unstable next experimental"
 ARCHS="amd64 i386 all"
 
 if [ -e /etc/jenkins/jenkins-pupdate.conf ]; then

@@ -1,0 +1,26 @@
+host=dev.siduction.org
+
+mkdir -p old/bin old/jenkins old/pbuilder
+
+
+scp $host:/etc/jenkins/jenkins-buildpackage.conf old/jenkins
+scp $host:/etc/jenkins/jenkins-pupdate.conf      old/jenkins 
+
+scp $host:/etc/pbuilder/pbuilderrc             old/pbuilder
+
+scp $host:/usr/bin/jenkins-build-needed old/bin/
+scp $host:/usr/bin/jenkins-buildpackage old/bin/
+scp $host:/usr/bin/jenkins-pupdate      old/bin/
+scp $host:/usr/bin/jenkins-worker       old/bin/
+scp $host:/usr/bin/packs                old/bin/
+scp $host:/usr/bin/packs386             old/bin/
+scp $host:/usr/bin/pbuild               old/bin/
+scp $host:/usr/bin/pbuild386            old/bin/
+scp $host:/usr/bin/pcreate              old/bin/
+scp $host:/usr/bin/pcreate386           old/bin/
+scp $host:/usr/bin/plogin               old/bin/
+scp $host:/usr/bin/plogin386            old/bin/
+scp $host:/usr/bin/psource              old/bin/
+scp $host:/usr/bin/pupdate              old/bin/
+scp $host:/usr/bin/pupdate386           old/bin/
+

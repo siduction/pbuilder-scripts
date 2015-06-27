@@ -2,6 +2,10 @@
 # your own default (i.e. ${DIST:="unstable"}).
 : ${DISTRIBUTION:="unstable"}
 
+if [ "${DISTRI}" == "jessie-backports" ]; then
+    DISTRIBUTION=jessie
+fi
+
 # Optionally set the architecture to the host architecture if none set. Note
 # that you can set your own default (i.e. ${ARCH:="i386"}).
 : ${ARCH:="$(dpkg --print-architecture)"}
@@ -34,7 +38,6 @@ export USEDEVPTS=yes
 export PKGNAME_LOGFILE_EXTENTION=.build
 export PKGNAME_LOGFILE=yes
 export APTCACHEHARDLINK=no
-export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}libeatmydata.so"
 
 BASETGZ="/var/cache/pbuilder/$BUILDCHROOT-base.tgz"
 export BUILDRESULT="/var/cache/pbuilder/${BUILDCHROOT}/result/"
@@ -50,7 +53,6 @@ EXTRAPACKAGES=" \
     ccache \
     debhelper \
     devscripts \
-    eatmydata \
     fakeroot \
     gawk \
     gnupg-agent  \
@@ -62,7 +64,7 @@ EXTRAPACKAGES=" \
 "
 
 # to cleanup existing chroots - remove the comment
-# REMOVEPACKAGES=" nano apt-show-versions autopoint autotools-dev cdbs groff intltool libtool locate procps psmisc cmake automake  bash-completion"
+REMOVEPACKAGES="eatmydata"
 # 
 
 # Mirrors to use. Update these to your preferred mirror.
@@ -110,6 +112,10 @@ case ${TARGET} in
 
   debian)
     case ${DISTRI} in
+        jessie-backports)
+            OTHERMIRROR+="   deb http://packages.siduction.org/lxqt jessie-backports main"
+            ;;
+
         unstable)
             OTHERMIRROR="    deb http://$DEBIAN_MIRROR/ experimental main contrib non-free"
             OTHERMIRROR+=" | deb http://packages.siduction.org/lxqt unstable main"

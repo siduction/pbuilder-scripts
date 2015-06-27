@@ -3,3 +3,5 @@
 /debian/*.debhelper.log
 /debian/*.substvars
 /version
+
+/debian/pbuilder-apt-settings/
