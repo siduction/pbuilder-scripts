@@ -83,6 +83,7 @@ echo -e "Repository:    $REPOSITORY"
 echo -e "Distibution:   $DISTRI"
 echo -e "Build Arch:    $BUILDARCH"
 echo -e "Architectiure: $ARCH"
+echo -e "DebBuildOpts:  ${DEBBUILDOPTS}"
 echo -e "Buildresult    $BUILDRESULT"
 echo -e "DSC-File  :    $DSCFILE"
 echo -e "Changes-File:  $CHANGESFILE"
@@ -92,7 +93,10 @@ echo -e "Mirrorsite:   ${MIRRORSITE}"
 echo -e "Other Mirror: ${OTHERMIRROR}"
 echo -e "\n"
 
-sudo -E pbuilder --build ${OPTIONS}
+
+echo -e "COMMAND: sudo -E pbuilder --build ${OPTIONS} ${DSC-File}"
+
+sudo -E pbuilder --build ${OPTIONS} ${DSC-File}
 RESULT=$?
 if [ "${RESULT}" -eq "0" ]; then
     sign_builded_packages

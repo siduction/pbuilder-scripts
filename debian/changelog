@@ -1,9 +1,17 @@
-pbuilder-scripts (0.36) UNRELEASED; urgency=medium
+pbuilder-scripts (0.37) unstable; urgency=medium
+
+  * backports fixed
+  * more verbose about Opts
+  * typo fixed 
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 06 Feb 2016 16:37:09 +0100
+
+pbuilder-scripts (0.36) unstable; urgency=medium
 
   * cleanup, jessie-backports added
   * eatmydata finally removed
 
- -- Alf Gaida <agaida@siduction.org>  Sat, 27 Jun 2015 13:51:53 +0200
+ -- Alf Gaida <agaida@siduction.org>  Sat, 27 Jun 2015 17:03:15 +0200
 
 pbuilder-scripts (0.35) unstable; urgency=medium
 

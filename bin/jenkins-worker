@@ -26,11 +26,17 @@ REPOBASE="${REPOPATH}/${REPOSITORY}"
 split_needs() {
   ## which package
   LINE=$(cat ${i})
+  echo "Line: $LINE"
+  # backports handling
+  i=$(echo ${i} | sed s/-backports/_backports/ )
+  echo "i: $i"
   PACKAGE=$(echo ${LINE}   | awk -F' ' '{ print $1 }')
   VERSION=$(echo ${LINE}   | awk -F' ' '{ print $2 }')
   REPOSITORY=$(echo ${i}   | awk -F'-' '{ print $2 }')
-  DISTRI=$(echo ${i} | awk -F'-' '{ print $3 }')
-  BUILDARCH=$(echo ${i} | awk -F'-' '{ print $4 }')
+  DISTRI=$(echo ${i}       | awk -F'-' '{ print $3 }'  | sed s#_#-#)
+  BUILDARCH=$(echo ${i}    | awk -F'-' '{ print $4 }')
+  # revert backports handling
+  i=$(echo ${i} | sed s/_backports/-backports/ )
   case ${REPOSITORY} in
     lxqt)
       TARGET=debian
