@@ -1,3 +1,9 @@
+pbuilder-scripts (0.43) unstable; urgency=medium
+
+  * Fixed REALREPO
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 14 Feb 2016 05:32:02 +0100
+
 pbuilder-scripts (0.42) unstable; urgency=medium
 
   * Fixed another set of typos

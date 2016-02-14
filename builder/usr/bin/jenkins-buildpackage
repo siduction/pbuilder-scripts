@@ -90,7 +90,6 @@ split_repo_line() {
     PACKAGE_NAME=$(echo ${REPOLINE} | awk -F' ' '{ print $1 }')
     PACKAGE_VER=$(echo ${REPOLINE} | awk -F' ' '{ print $2 }')
     PACKAGE_DSC=$(echo ${REPOLINE} | awk -F' ' '{ print $3 }')
-    REALREPO=$(echo ${REPOLINE} | awk -F' ' '{ print $4 }')
     PACKAGE_FILES=$(echo ${PACKAGE_DSC} | sed 's/\.dsc/*/')
     SOURCEDIR=${SOURCEPATH}/${PACKAGE_NAME}-${PACKAGE_VER}
     BUILD_DSC=$(basename ${PACKAGE_DSC})
@@ -105,7 +104,7 @@ get_source_package() {
     echo -e "HOST:         $HOST"
     echo -e "REPOLINE:     $REPOLINE"
     echo -e "PACKAGE_DSC:  $PACKAGE_DSC"
-    echo -e "REPOBASE:     $REPOBASE"
+    echo -e "REALREPO:     $REALREPO"
     echo -e "REPOPATH:     $REPOPATH"
     echo "dget -d ${PROTOCOL}${HOST}/${REALREPO}/${PACKAGE_DSC}"
     dget -d ${PROTOCOL}${HOST}/${REALREPO}/${PACKAGE_DSC}
