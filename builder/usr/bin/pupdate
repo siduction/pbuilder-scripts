@@ -15,7 +15,6 @@ while getopts “t:d:a:h” OPTION; do
          t)
              export TARGET=${OPTARG}
              ;;
-             ;;
          d)
              export DISTRI=${OPTARG}
              ;;

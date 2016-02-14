@@ -18,7 +18,7 @@ rsync -av $host:/etc/pbuilder/*                    compare/etc/pbuilder
 rsync -av $host:/usr/bin/jenkins-build-needed      compare/usr/bin/
 rsync -av $host:/usr/bin/jenkins-buildpackage      compare/usr/bin/
 rsync -av $host:/usr/bin/jenkins-pupdate           compare/usr/bin/
-resyn -av $host:/usr/bin/jenkins-worker            compare/usr/bin/
+rsync -av $host:/usr/bin/jenkins-worker            compare/usr/bin/
 rsync -av $host:/usr/bin/packs                     compare/usr/bin/
 rsync -av $host:/usr/bin/packs386                  compare/usr/bin/
 rsync -av $host:/usr/bin/pbuild                    compare/usr/bin/

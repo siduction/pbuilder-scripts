@@ -27,27 +27,19 @@ split_needs() {
   ## which package
   LINE=$(cat ${i})
   echo "Line: $LINE"
-  # backports handling
-  i=$(echo ${i} | sed s/-backports/_backports/ )
   echo "i: $i"
   PACKAGE=$(echo ${LINE}   | awk -F' ' '{ print $1 }')
   VERSION=$(echo ${LINE}   | awk -F' ' '{ print $2 }')
-  REPOSITORY=$(echo ${i}   | awk -F'-' '{ print $2 }')
-  DISTRI=$(echo ${i}       | awk -F'-' '{ print $3 }'  | sed s#_#-#)
-  BUILDARCH=$(echo ${i}    | awk -F'-' '{ print $4 }')
-  # revert backports handling
-  i=$(echo ${i} | sed s/_backports/-backports/ )
-  case ${REPOSITORY} in
-    lxqt)
-      TARGET=debian
-      ;;
-    *)
-      TARGET=siduction
-      ;;
-  esac
+  REALREPO=$(echo ${LINE}  | awk -F' ' '{ print $4 }')
+  TARGET=$(echo ${i}       | awk -F'+' '{ print $2 }')
+  REPOSITORY=$(echo ${i}   | awk -F'+' '{ print $3 }')
+  DISTRI=$(echo ${i}       | awk -F'+' '{ print $4 }')
+  BUILDARCH=$(echo ${i}    | awk -F'+' '{ print $5 }')
+
   echo -e "\n"
   echo -e "PACKAGE:      ${PACKAGE}"
   echo -e "VERSION:      ${VERSION}"
+  echo -e "REALREPO:     ${REALREPO}"
   echo -e "TARGET:       ${TARGET}"
   echo -e "REPOSITORY:   ${REPOSITORY}"
   echo -e "DISTRIBUTION: ${DISTRI}"
@@ -60,8 +52,8 @@ for i in ${SOURCEPATH}/needed* ; do
    if [ -f ${i} ]; then
        split_needs
        rm ${i}
-       echo "jenkins-buildpackage -t ${TARGET} -r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}"
-       jenkins-buildpackage -t ${TARGET} -r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}
+       echo "jenkins-buildpackage -t ${TARGET} -r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH} -b ${REALREPO}"
+       jenkins-buildpackage -t "${TARGET}" -r "${REPOSITORY}" -d "${DISTRI}" -a "${BUILDARCH}" -b "${REALREPO}"
        RESULT=$?
        break
    fi

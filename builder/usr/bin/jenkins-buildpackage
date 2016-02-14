@@ -14,7 +14,7 @@ OPTIONS:
     -r  Repository: fixes, extra, lxqt-snapshots
     -d  Distribution: lxqt-snapshots, unstable, next, experimental
     -a  Architecture, should be 'all', 'i386' or 'amd64'
-    -p  REPOPATH
+    -b  REPOPATH
     -x  Delete file for failed builds
     -V  Version
 EOF
@@ -90,6 +90,7 @@ split_repo_line() {
     PACKAGE_NAME=$(echo ${REPOLINE} | awk -F' ' '{ print $1 }')
     PACKAGE_VER=$(echo ${REPOLINE} | awk -F' ' '{ print $2 }')
     PACKAGE_DSC=$(echo ${REPOLINE} | awk -F' ' '{ print $3 }')
+    REALREPO=$(echo ${REPOLINE} | awk -F' ' '{ print $4 }')
     PACKAGE_FILES=$(echo ${PACKAGE_DSC} | sed 's/\.dsc/*/')
     SOURCEDIR=${SOURCEPATH}/${PACKAGE_NAME}-${PACKAGE_VER}
     BUILD_DSC=$(basename ${PACKAGE_DSC})
