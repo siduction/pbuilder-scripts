@@ -22,7 +22,7 @@ OPTIONS:
     -h  Show this message
     -t  Target: siduction, debian
     -r  Repository: base, fixes, extra, lxqt
-    -d  Distribution: jessie-backports, unstable, next, experimental
+    -d  Distribution: lxqt-snapshots, unstable, next, experimental
     -a  Architecture, should be 'i386', 'amd64' or 'all'
     -V  Version
 EOF

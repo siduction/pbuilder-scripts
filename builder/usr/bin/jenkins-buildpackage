@@ -11,9 +11,10 @@ usage: $0 options
 OPTIONS:
     -h  Show this message
     -t  Target: siduction, debian
-    -r  Repository: base, fixes, extra, kdenext, lxqt, razorqt, xfcenext
-    -d  Distribution: jessie-backports, unstable, next, experimental
+    -r  Repository: fixes, extra, lxqt-snapshots
+    -d  Distribution: lxqt-snapshots, unstable, next, experimental
     -a  Architecture, should be 'all', 'i386' or 'amd64'
+    -p  REPOPATH
     -x  Delete file for failed builds
     -V  Version
 EOF
@@ -26,19 +27,14 @@ version() {
 }
 
 ## get basic configuration form /etc/jenkins
-if [ -f /etc/jenkins/jenkins-buildpackage.conf ]; then
-    echo -e "Configuration: /etc/jenkins/jenkins-buildpackage.conf used"
-    . /etc/jenkins/jenkins-buildpackage.conf
+if [ -f /etc/jenkins/buildpackage.conf ]; then
+    . /etc/jenkins/buildpackage.conf
 fi
 
-## get user conf
-if [ -f ${HOME}/.config/jenkins/jenkins-buildpackage.conf ]; then
-    echo -e "Configuration: ${HOME}/.config/jenkins-buildpackage.conf  used"
-    . ${HOME}/.config/jenkins/jenkins-builpackage.conf
-fi
+REPOBASE="${REPOPATH}/${REPOSITORY}"
 
 ## option handling
-while getopts “t:r:d:a:Vhx” OPTION; do
+while getopts “t:r:d:a:b:Vhx” OPTION; do
     case ${OPTION} in
         t)
             TARGET=${OPTARG}
@@ -51,6 +47,11 @@ while getopts “t:r:d:a:Vhx” OPTION; do
             ;;
         a)
             BUILDARCH=${OPTARG}
+            ;;
+        b)
+            REALREPO="${OPTARG}"
+            REPOBASE="${REPOPATH}/${REALREPO}"
+            echo "REALREPO: ${REALREPO}"
             ;;
         h)
             usage
@@ -66,15 +67,13 @@ while getopts “t:r:d:a:Vhx” OPTION; do
      esac
 done
 
-REPOBASE="${REPOPATH}/${REPOSITORY}"
-
 
 ## is_valid_line
 is_valid_line() {
-    [[ ! -e ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${BUILDARCH} ]] && touch ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${BUILDARCH}
-    grep "$REPOLINE" ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${BUILDARCH}
+    [[ ! -e ${SOURCEPATH}/build-failed+${TARGET}+${REPOSITORY}+${DISTRI}+${BUILDARCH} ]] && touch ${SOURCEPATH}/build-failed+${TARGET}+${REPOSITORY}+${DISTRI}+${BUILDARCH}
+    grep "$REPOLINE" ${SOURCEPATH}/build-failed+${TARGET}+${REPOSITORY}+${DISTRI}+${BUILDARCH}
     RESULT=$?
-    case ${RESULT} in
+    case "${RESULT}" in
         1)
             echo -e "Valid: ${REPOLINE}"
             ;;
@@ -82,7 +81,7 @@ is_valid_line() {
             echo -e "Faulty: ${REPOLINE}"
             ;;
     esac
-    return ${RESULT}
+    return "${RESULT}"
 }
 
 
@@ -105,7 +104,10 @@ get_source_package() {
     echo -e "HOST:         $HOST"
     echo -e "REPOLINE:     $REPOLINE"
     echo -e "PACKAGE_DSC:  $PACKAGE_DSC"
-    dget -d ${PROTOCOL}${HOST}/${REPOSITORY}/${PACKAGE_DSC}
+    echo -e "REPOBASE:     $REPOBASE"
+    echo -e "REPOPATH:     $REPOPATH"
+    echo "dget -d ${PROTOCOL}${HOST}/${REALREPO}/${PACKAGE_DSC}"
+    dget -d ${PROTOCOL}${HOST}/${REALREPO}/${PACKAGE_DSC}
     popd
 }
 
@@ -121,7 +123,7 @@ build_source_package() {
             ;;
     esac
     BUILDTARGET="/var/cache/pbuilder/${TARGET}-${DISTRI}-${ARCH}/result"
-    echo "pbuild -t ${TARGET}-r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}  ${BUILD_DSC}"
+    echo "pbuild -t ${TARGET} -r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}  ${BUILD_DSC}"
     pbuild -t ${TARGET} -r ${REPOSITORY} -d ${DISTRI} -a ${BUILDARCH}  ${BUILD_DSC}
     RESULT=$?
     echo -e "build_source_package Result: ${RESULT}"
@@ -166,19 +168,22 @@ upload_package() {
 
 ## delete failed builds file
 delete_failed() {
-    rm -fv  ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${BUILDARCH}
+    rm -fv  ${SOURCEPATH}/build-failed+${TARGET}+${REPOSITORY}+${DISTRI}+${BUILDARCH}
 }
 
 ## write_failed
 write_failed() {
-    echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed-${REPOSITORY}-${DISTRI}-${BUILDARCH}
-    echo -e "added ${REPOLINE} to failed builds for ${REPOSITORY}, ${DISTRI} and ${BUILDARCH} \n"
+    echo ${REPOLINE} >>  ${SOURCEPATH}/build-failed+${TARGET}+${REPOSITORY}+${DISTRI}+${BUILDARCH}
+    echo -e "added ${REPOLINE} to failed builds for ${TARGET}, ${REPOSITORY}, ${DISTRI} and ${BUILDARCH} \n"
 }
 
 ## Main
 [ "${DELETE_FAILED}" = "true" ] && delete_failed && exit 0
 [ ! -d ${SOURCEPATH} ] && mkdir -p ${SOURCEPATH} && echo ${SOURCEPATH}
+
 IFS=$'\n'
+echo "ssh ${USER}@${HOST}  \"cd ${REPOBASE}; reprepro build-needing ${DISTRI}  $BUILDARCH\" "
+
 for i in $(ssh ${USER}@${HOST}  "cd ${REPOBASE}; reprepro build-needing ${DISTRI}  $BUILDARCH"); do
     REPOLINE=$i
     is_valid_line

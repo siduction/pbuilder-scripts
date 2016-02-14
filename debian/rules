@@ -11,5 +11,5 @@ export DH_VERBOSE=1
 DEBVERSION = $(shell head -n 1 debian/changelog | sed -e 's/^[^(]*(\([^)]*\)).*/\1/')
 
 %:
-	echo "VERSION=$(DEBVERSION)" > version
+	echo "VERSION=$(DEBVERSION)" > builder/usr/share/pbuilder-scripts/version
 	dh $@

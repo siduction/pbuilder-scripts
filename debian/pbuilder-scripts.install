@@ -1,7 +1,7 @@
-bin            usr
-hooks          var/cache/pbuilder
-etc/jenkins
-etc/pbuilder
-etc/skel
-set_pbuilder   usr/share/pbuilder-scripts
-version        usr/share/pbuilder-scripts
+builder/usr/bin                     usr
+builder/etc/jenkins                 etc
+builder/etc/pbuilder                etc
+builder/etc/skel                    etc
+builder/usr/share/pbuilder-scripts  usr/share
+builder/var/cache/pbuilder/hooks    var/cache/pbuilder
+

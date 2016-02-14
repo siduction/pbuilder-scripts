@@ -1,9 +1,9 @@
 # devscripts.conf
-# © 2012-2014 Alf Gaida <agaida@siduction.org>
+# © 2012-2016 Alf Gaida <agaida@siduction.org>
 #
 # please note, that this configuration file is meant to be
-# placed as ~/devscripts
-#
+# placed as ~/.devscripts so please rename the file
+# .devscripts should be sourced in ~/.bashrc
 
 ## Common debian build settings
 export DEBFULLNAME='your name'

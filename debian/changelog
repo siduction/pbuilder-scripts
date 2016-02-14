@@ -1,8 +1,31 @@
+pbuilder-scripts (0.40) unstable; urgency=medium
+
+  * bump standards to 3.9.7
+  * change copyright years
+  * new directory structure
+  * overhauled get...
+  * all scripts checked and partly overhauled 
+
+ -- Alf Gaida <agaida@siduction.org>  Sun, 14 Feb 2016 03:24:43 +0100
+
+pbuilder-scripts (0.39) unstable; urgency=medium
+
+  * new targets.conf
+  * jenkins-build-needed modified that way
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 13 Feb 2016 09:51:17 +0100
+
+pbuilder-scripts (0.38) unstable; urgency=medium
+
+  * replace jessie-backports with lxqt-snapshots
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 13 Feb 2016 03:29:10 +0100
+
 pbuilder-scripts (0.37) unstable; urgency=medium
 
   * backports fixed
   * more verbose about Opts
-  * typo fixed 
+  * typo fixed
 
  -- Alf Gaida <agaida@siduction.org>  Sat, 06 Feb 2016 16:37:09 +0100
 
@@ -15,14 +38,14 @@ pbuilder-scripts (0.36) unstable; urgency=medium
 
 pbuilder-scripts (0.35) unstable; urgency=medium
 
-  * apt-speedup implemented, package pbuilder-apt-settings 
-  * eatmydata - new version 
+  * apt-speedup implemented, package pbuilder-apt-settings
+  * eatmydata - new version
 
  -- Alf Gaida <agaida@siduction.org>  Thu, 12 Mar 2015 23:20:58 +0100
 
 pbuilder-scripts (0.34) unstable; urgency=medium
 
-  * remove eatmydata finally 
+  * remove eatmydata finally
 
  -- Alf Gaida <agaida@siduction.org>  Thu, 12 Mar 2015 22:46:32 +0100
 
@@ -35,13 +58,13 @@ pbuilder-scripts (0.33) unstable; urgency=medium
 pbuilder-scripts (0.32) unstable; urgency=medium
 
   * TARGET newly introduced - siduction or debian, make it possible to
-    use different build chroots for siduction and debian packages 
+    use different build chroots for siduction and debian packages
 
  -- Alf Gaida <agaida@siduction.org>  Sun, 08 Mar 2015 03:02:03 +0100
 
 pbuilder-scripts (0.31) unstable; urgency=medium
 
-  * fixup some issues, biggest was the hard wired repopath on serverside 
+  * fixup some issues, biggest was the hard wired repopath on serverside
 
  -- Alf Gaida <agaida@siduction.org>  Mon, 02 Mar 2015 23:04:00 +0100
 
@@ -61,13 +84,13 @@ pbuilder-scripts (0.29) unstable; urgency=medium
 
 pbuilder-scripts (0.28) unstable; urgency=medium
 
-  * some improvements for 'all' packages 
+  * some improvements for 'all' packages
 
  -- Alf Gaida <agaida@siduction.org>  Thu, 25 Sep 2014 23:25:18 +0200
 
 pbuilder-scripts (0.27) unstable; urgency=medium
 
-  * reactivated apt-utils libfile-fcntllock-perl 
+  * reactivated apt-utils libfile-fcntllock-perl
 
  -- Alf Gaida <agaida@siduction.org>  Sat, 16 Aug 2014 02:49:10 +0200
 
@@ -80,7 +103,7 @@ pbuilder-scripts (0.26) unstable; urgency=medium
 pbuilder-scripts (0.25) unstable; urgency=medium
 
   * DISTRIBUTION -> DISTRI as DISTRIBUTION is used internal for other
-    things as our distributions 
+    things as our distributions
 
  -- Alf Gaida <agaida@siduction.org>  Sun, 15 Jun 2014 23:24:37 +0200
 
@@ -121,26 +144,26 @@ pbuilder-scripts (0.20) unstable; urgency=medium
 pbuilder-scripts (0.19) unstable; urgency=medium
 
   * fix get-source
-  * some fine tuninig 
+  * some fine tuninig
 
  -- Alf Gaida <agaida@siduction.org>  Sun, 01 Jun 2014 19:32:23 +0200
 
 pbuilder-scripts (0.18) unstable; urgency=medium
 
-  * pbuilderrc and pbuild modified for native and siduction builds 
+  * pbuilderrc and pbuild modified for native and siduction builds
 
  -- Alf Gaida <agaida@siduction.org>  Sun, 01 Jun 2014 03:06:27 +0200
 
 pbuilder-scripts (0.17) unstable; urgency=medium
 
   * signing moved from jenkins-buildpackage to pbuild
-  * improvements in pbuild to respect target repository 
+  * improvements in pbuild to respect target repository
 
  -- Alf Gaida <agaida@siduction.org>  Sun, 01 Jun 2014 01:00:56 +0200
 
 pbuilder-scripts (0.16) unstable; urgency=medium
 
-  * jenkins stuff improved 
+  * jenkins stuff improved
 
  -- Alf Gaida <agaida@siduction.org>  Sat, 31 May 2014 01:05:41 +0200
 
@@ -164,13 +187,13 @@ pbuilder-scripts (0.13) unstable; urgency=medium
 
 pbuilder-scripts (0.12) next; urgency=medium
 
-  * some improvements for jenkins-* 
+  * some improvements for jenkins-*
 
  -- Alf Gaida <agaida@siduction.org>  Thu, 29 May 2014 00:27:50 +0200
 
 pbuilder-scripts (0.11) next; urgency=medium
 
-  * switch  to next 
+  * switch  to next
 
  -- Alf Gaida <agaida@siduction.org>  Wed, 28 May 2014 18:56:14 +0200
 
@@ -185,7 +208,7 @@ pbuilder-scripts (0.9) unstable; urgency=medium
 
   * copyright changed to wtfpl2
   * new copyright format
-  * new standards 
+  * new standards
 
  -- Alf Gaida <agaida@siduction.org>  Fri, 17 Jan 2014 19:38:21 +0100
 
@@ -197,13 +220,13 @@ pbuilder-scripts (0.8) unstable; urgency=low
 
 pbuilder-scripts (0.7) unstable; urgency=low
 
-  * create unstable, next and experimental $arch result-Directories 
+  * create unstable, next and experimental $arch result-Directories
 
  -- Alf Gaida <agaida@siduction.org>  Mon, 21 Oct 2013 16:11:38 +0200
 
 pbuilder-scripts (0.6) unstable; urgency=low
 
-  * new scripting for next and experimental  
+  * new scripting for next and experimental
 
  -- Alf Gaida <agaida@siduction.org>  Sat, 28 Sep 2013 00:36:24 +0200
 
@@ -222,7 +245,7 @@ pbuilder-scripts (0.4) unstable; urgency=low
     libio-stringy-perl
     libexporter-lite-perl
     eatmydata
-    realpath 
+    realpath
 
  -- Alf Gaida <agaida@siduction.org>  Sun, 17 Feb 2013 15:26:50 +0100
 
@@ -233,9 +256,9 @@ pbuilder-scripts (0.3) unstable; urgency=low
   * libparse-debcontrol-perl added to depends
   * debian/TODO added
   * rename debuildrc to devscripts.conf to reflect the devscripts package
-  * split pbuilderrc to pbuilder.conf and pbuilder.user 
-  * reworked pbuilder_scripts/set_pbuilder 
-  * .pbuildrc and .devscripts are handled 
+  * split pbuilderrc to pbuilder.conf and pbuilder.user
+  * reworked pbuilder_scripts/set_pbuilder
+  * .pbuildrc and .devscripts are handled
 
  -- Alf Gaida <agaida@siduction.org>  Sun, 17 Feb 2013 15:23:20 +0100
 
@@ -244,8 +267,8 @@ pbuilder-scripts (0.2) unstable; urgency=low
   * a few file movements
   * other_mirrors can now set with debuildrc
   * mirror can now set with debuildrc
-  * architecture set in the first place 
-  * some configuration glitches removed 
+  * architecture set in the first place
+  * some configuration glitches removed
 
  -- Alf Gaida <agaida@siduction.org>  Sun, 10 Jun 2012 13:44:48 +0200
 

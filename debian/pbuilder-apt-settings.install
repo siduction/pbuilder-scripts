@@ -1,1 +1,1 @@
-etc/dpkg/dpkg.cfg.d/02apt-speedup
+builder/etc/dpkg/dpkg.conf.d   etc/dpkg

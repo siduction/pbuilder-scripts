@@ -1,0 +1,37 @@
+#!/bin/bash
+PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+ARCHS="amd64 i386"
+
+if [ -e /etc/jenkins/pupdate.conf ]; then
+    . /etc/jenkins/pupdate.conf
+fi
+
+if [ -f /etc/jenkins/targets.conf ]; then
+   TARGETS=$(cat /etc/jenkins/targets.conf)
+fi
+
+## version
+version() {
+    . /usr/share/pbuilder-scripts/version
+    echo "$(basename $0): ${VERSION}"
+}
+
+
+for i in ${TARGETS}; do
+    TARGET=$(echo ${i} | awk -F'|' '{ print $1 }')
+    REPOSITORY=$(echo ${i} | awk -F'|' '{ print $2 }')
+    DISTRI=$(echo ${i} | awk -F'|' '{ print $3 }')
+    echo -e "REPOSITORY:  $REPOSITORY"
+    for k in ${ARCHS}; do
+        echo -e ""
+        echo -e "Update Build-Chroot"
+        echo -e "Target:       ${TARGET}"
+        echo -e "Distribution: ${DISTRI}"
+        echo -e "Architecture: ${k}"
+        echo -e "REPOSITORY:   ${REPOSITORY}"
+        echo -e ""
+        echo -e "pupdate -t ${TARGET} -d ${DISTRI} -r ${REPOSITORY} -a ${k}"
+        pupdate -t ${TARGET} -d ${DISTRI} -r ${REPOSITORY} -a ${k}
+    done
+done

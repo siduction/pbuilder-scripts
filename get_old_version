@@ -1,26 +1,42 @@
-host=dev.siduction.org
+#!/bin/bash
 
-mkdir -p old/bin old/jenkins old/pbuilder
+host=newdev
 
+rm -rf compare
+mkdir -p compare/usr/bin
+mkdir -p compare/etc/dpkg/dpkg.conf.d
+mkdir -p compare/etc/jenkins
+mkdir -p compare/etc/pbuilder
+mkdir -p compare/etc/skel
+mkdir -p compare/usr/share/pbuilder-scripts
+mkdir -p compare/var/cache/pbuilder/hooks
 
-scp $host:/etc/jenkins/jenkins-buildpackage.conf old/jenkins
-scp $host:/etc/jenkins/jenkins-pupdate.conf      old/jenkins 
+rsync -av $host:/etc/jenkins/*                     compare/etc/jenkins
 
-scp $host:/etc/pbuilder/pbuilderrc             old/pbuilder
+rsync -av $host:/etc/pbuilder/*                    compare/etc/pbuilder
 
-scp $host:/usr/bin/jenkins-build-needed old/bin/
-scp $host:/usr/bin/jenkins-buildpackage old/bin/
-scp $host:/usr/bin/jenkins-pupdate      old/bin/
-scp $host:/usr/bin/jenkins-worker       old/bin/
-scp $host:/usr/bin/packs                old/bin/
-scp $host:/usr/bin/packs386             old/bin/
-scp $host:/usr/bin/pbuild               old/bin/
-scp $host:/usr/bin/pbuild386            old/bin/
-scp $host:/usr/bin/pcreate              old/bin/
-scp $host:/usr/bin/pcreate386           old/bin/
-scp $host:/usr/bin/plogin               old/bin/
-scp $host:/usr/bin/plogin386            old/bin/
-scp $host:/usr/bin/psource              old/bin/
-scp $host:/usr/bin/pupdate              old/bin/
-scp $host:/usr/bin/pupdate386           old/bin/
+rsync -av $host:/usr/bin/jenkins-build-needed      compare/usr/bin/
+rsync -av $host:/usr/bin/jenkins-buildpackage      compare/usr/bin/
+rsync -av $host:/usr/bin/jenkins-pupdate           compare/usr/bin/
+resyn -av $host:/usr/bin/jenkins-worker            compare/usr/bin/
+rsync -av $host:/usr/bin/packs                     compare/usr/bin/
+rsync -av $host:/usr/bin/packs386                  compare/usr/bin/
+rsync -av $host:/usr/bin/pbuild                    compare/usr/bin/
+rsync -av $host:/usr/bin/pbuild386                 compare/usr/bin/
+rsync -av $host:/usr/bin/pcreate                   compare/usr/bin/
+rsync -av $host:/usr/bin/pcreate386                compare/usr/bin/
+rsync -av $host:/usr/bin/plogin                    compare/usr/bin/
+rsync -av $host:/usr/bin/plogin386                 compare/usr/bin/
+rsync -av $host:/usr/bin/psource                   compare/usr/bin/
+rsync -av $host:/usr/bin/pupdate                   compare/usr/bin/
+rsync -av $host:/usr/bin/pupdate386                compare/usr/bin/
+
+rsync -av $host:/etc/dpkg/dpkg.conf.d              compare/etc/dpkg/dpkg.conf.d
+
+rsync -av $host:/etc/skel/pbuilderrc               compare/etc/skel/pbuilderrc
+rsync -av $host:/etc/skel/devscripts               compare/etc/skel/devscripts
+
+rsync -av $host:/usr/share/pbuilder-scripts        compare/usr/share/
+
+rsync -av $host:/var/cache/pbuilder/hooks          compare/var/cache/pbuilder/
 

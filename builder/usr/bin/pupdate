@@ -2,22 +2,19 @@
 #
 # pupdate
 #
-# © 2011 - 2015 Alf Gaida <agaida@siduction.org>
+# © 2011-2016 Alf Gaida <agaida@siduction.org>
 #
 
 export TARGET="siduction"
-export REPOSITORY="extra"
 export DISTRI="unstable"
 export ARCH="amd64"
 
 
-while getopts “t:r:d:a:h” OPTION; do
+while getopts “t:d:a:h” OPTION; do
      case ${OPTION} in
          t)
              export TARGET=${OPTARG}
              ;;
-         r)
-             export REPOSITORY=${OPTARG}
              ;;
          d)
              export DISTRI=${OPTARG}
@@ -32,8 +29,10 @@ while getopts “t:r:d:a:h” OPTION; do
      esac
 done
 
-. /usr/share/pbuilder-scripts/set_pbuilder
+source  /usr/share/pbuilder-scripts/set_pbuilder
 
 sudo -E pbuilder --clean
-sudo -E pbuilder --update --override-config ${@}
+
+echo "sudo -E pbuilder --update --override-config "
+sudo -E pbuilder --update --override-config
 
