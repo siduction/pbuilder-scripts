@@ -1,3 +1,10 @@
+pbuilder-scripts (0.44) unstable; urgency=medium
+
+  * fixed plogin --save-after-login
+  * fixed false ${@} 
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 04 Mar 2016 00:18:16 +0100
+
 pbuilder-scripts (0.43) unstable; urgency=medium
 
   * Fixed REALREPO

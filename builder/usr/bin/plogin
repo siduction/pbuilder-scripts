@@ -25,7 +25,7 @@ while getopts “t:r:d:a:sh” OPTION; do
              export ARCH=${OPTARG}
              ;;
          s)
-             SAVESETTINGS='--save-settings'
+             SAVESETTINGS='--save-after-login'
              ;;
          h)
              #usage
@@ -45,5 +45,5 @@ esac
 
 . /usr/share/pbuilder-scripts/set_pbuilder
 
-sudo -E pbuilder --login ${@} ${SAVESETTINGS}
+sudo -E pbuilder --login ${SAVESETTINGS}
 
