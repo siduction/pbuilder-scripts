@@ -1,3 +1,15 @@
+pbuilder-scripts (0.46) unstable; urgency=medium
+
+  * fix some typos
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 04 Mar 2016 01:03:43 +0100
+
+pbuilder-scripts (0.45) unstable; urgency=medium
+
+  * fix keyring handling 
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 04 Mar 2016 00:38:16 +0100
+
 pbuilder-scripts (0.44) unstable; urgency=medium
 
   * fixed plogin --save-after-login

@@ -66,11 +66,10 @@ EXTRAPACKAGES=" \
     libfile-fcntllock-perl \
     lintian \
     pbuilder-apt-settings \
-    siduction-archive-keyring \
 "
 
 # to cleanup existing chroots - remove the comment
-REMOVEPACKAGES="eatmydata"
+REMOVEPACKAGES=""
 #
 
 # Mirrors to use. Update these to your preferred mirror.
@@ -86,6 +85,7 @@ case ${TARGET} in
             OTHERMIRROR+=" | deb http://packages.siduction.org/extra unstable     main"
             OTHERMIRROR+=" | deb http://packages.siduction.org/fixes unstable     main contrib non-free"
             OTHERMIRROR+=" | deb http://$DEBIAN_MIRROR/              experimental main contrib non-free"
+            EXTRAPACKAGES+="siduction-archive-keyring"
             ;;
         experimental)
             OTHERMIRROR+=" | deb http://packages.siduction.org/extra unstable     main"
@@ -95,6 +95,7 @@ case ${TARGET} in
             OTHERMIRROR+=" | deb http://packages.siduction.org/fixes next         main contrib non-free"
             OTHERMIRROR+=" | deb http://packages.siduction.org/fixes experimental main contrib non-free"
             OTHERMIRROR+=" | deb http://$DEBIAN_MIRROR/              experimental main contrib non-free"
+            EXTRAPACKAGES+="siduction-archive-keyring"
             ;;
         *)
             echo "Unknown distribution: ${DISTRI}"
@@ -108,6 +109,7 @@ case ${TARGET} in
         lxqt-snapshots)
             OTHERMIRROR="    deb http://$DEBIAN_MIRROR/ experimental main contrib non-free"
             OTHERMIRROR+=" | deb http://lxqt.debian.net/debian lxqt-snapshots main"
+            EXTRAPACKAGES+="pkg-lxqt-archive-keyring"
             ;;
     esac
     ;;
@@ -115,5 +117,3 @@ esac
 
 
 DEBOOTSTRAPOPTS=("${DEBOOTSTRAPOPTS[@]}" "--keyring=/usr/share/keyrings/debian-archive-keyring.gpg")
-
-ALLOWUNTRUSTED=yes

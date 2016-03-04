@@ -45,5 +45,5 @@ esac
 
 . /usr/share/pbuilder-scripts/set_pbuilder
 
-sudo -E pbuilder --login ${SAVESETTINGS}
+sudo -E pbuilder --allow-untrusted --login ${SAVESETTINGS}
 

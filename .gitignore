@@ -1,3 +1,4 @@
+/debian/debhelper-build-stamp
 /debian/files
 /debian/pbuilder-scripts/
 /debian/*.debhelper.log

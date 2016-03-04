@@ -33,4 +33,4 @@ done
 
 . /usr/share/pbuilder-scripts/set_pbuilder
 
-sudo -E pbuilder --create ${@}
+sudo -E pbuilder --allow-untrusted --create ${@}
